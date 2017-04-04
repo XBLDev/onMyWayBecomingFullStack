@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#btn1").click(function(){
+        alert("Text: " + $("#test").text());
+    });
+    $("#btn2").click(function(){
+        alert("HTML: " + $("#test").html());
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#btn3").click(function(){
+        alert("Value: " + $("#test2").val());
+    });
+});
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $("#btn4").click(function(){
+        alert($("#w3s").attr("href"));
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#btn5").click(function(){
+        $("#test3").text("Hello world!");
+    });
+    $("#btn6").click(function(){
+        $("#test4").html("<b>Hello world!</b>");
+    });
+    $("#btn7").click(function(){
+        $("#test5").val("Dolly Duck");
+    });
+});
+</script>
+
+
+
+</head>
+<body>
+
+<p id="test">This is some <b>bold</b> text in a paragraph.</p>
+
+<button id="btn1">Show Text</button>
+<button id="btn2">Show HTML</button>
+
+<br><br><br><br><br><br>
+<button id="btn3">Show Value</button>
+<p>Name: <input type="text" id="test2" value="Mickey Mouse"></p>
+
+<br><br><br><br><br><br>
+
+<button id="btn4">Show href Value</button>
+<p><a href="https://www.w3schools.com" id="w3s">W3Schools.com</a></p>
+
+<br><br><br><br><br><br>
+
+<button id="btn5">Set Text</button>
+<button id="btn6">Set HTML</button>
+<button id="btn7">Set Value</button>
+
+<p id="test3">This is a paragraph.</p>
+<p id="test4">This is another paragraph.</p>
+
+<p>Input field: <input type="text" id="test5" value="Mickey Mouse"></p>
+
+
+
+
+</body>
+</html>

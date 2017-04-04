@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $("p").hide(1000);
+	$("h1").hide(1000);
+    });
+    $("#show").click(function(){
+        $("p").show();
+        $("h1").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#toggle").click(function(){
+        $("p").toggle();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#fadeInbtn").click(function(){
+        $("#div1").fadeIn();
+        $("#div2").fadeIn("slow");
+        $("#div3").fadeIn(3000);
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#fadeoutbtn").click(function(){
+        $("#div4").fadeOut();
+        $("#div5").fadeOut("slow");
+        $("#div6").fadeOut(3000);
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#fadeToggleBtn").click(function(){
+        $("#div7").fadeToggle();
+        $("#div8").fadeToggle("slow");
+        $("#div9").fadeToggle(3000);
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#fadeToBtn").click(function(){
+        $("#div10").fadeTo("slow", 0.15);
+        $("#div11").fadeTo("slow", 0.4);
+        $("#div12").fadeTo("slow", 0.7);
+    });
+});
+</script>
+
+<script> 
+$(document).ready(function(){
+    $("#flip").click(function(){
+        $("#panel").slideToggle("slow");
+    });
+});
+</script>
+ 
+<style> 
+#panel, #flip {
+    padding: 5px;
+    text-align: center;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;
+}
+
+#panel {
+    padding: 50px;
+    display: none;
+}
+
+</style>
+
+
+
+<script> 
+$(document).ready(function(){
+    $("#animation1Btn").click(function(){
+            $("#ani1div").animate({
+            left: '250px',
+            opacity: '0.5',
+            height: '150px',
+            width: '150px'
+        });
+        $("#ani2div").animate({
+            left: '250px',
+            height: '+=150px',
+            width: '+=150px'
+        });
+
+        $("#ani3div").animate({
+            height: 'toggle'
+        });
+
+
+    });
+});
+</script> 
+
+<script> 
+$(document).ready(function(){
+    $("#animation2Btn").click(function(){
+        var div = $("#ani4div");
+        div.animate({height: '300px', opacity: '0.4'}, 100);
+        div.animate({width: '300px', opacity: '0.8'}, "slow");
+        div.animate({height: '100px', opacity: '0.4'}, 100);
+        div.animate({width: '100px', opacity: '0.8'}, "slow");
+    });
+});
+</script>
+
+
+<script> 
+$(document).ready(function(){
+    $("#animation3Btn").click(function(){
+        var div = $("#ani5div");  
+        div.animate({left: '100px'}, "slow");
+        div.animate({fontSize: '3em'}, "slow");
+    });
+});
+</script> 
+ 
+
+<style> 
+#panel2, #flip2 {
+    padding: 5px;
+    font-size: 18px;
+    text-align: center;
+    background-color: #555;
+    color: white;
+    border: solid 1px #666;
+    border-radius: 3px;
+}
+
+#panel2 {
+    padding: 50px;
+    display: none;
+}
+</style>
+
+<script> 
+$(document).ready(function(){
+    $("#flip2").click(function(){
+        $("#panel2").slideDown(5000);
+    });
+    $("#stop").click(function(){
+        $("#panel2").stop();
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#callbackBtn1").click(function(){
+        $("#callbackp1").hide("slow", function(){
+            alert("The paragraph is now hidden");
+        });
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#callbackBtn2").click(function(){
+        $("#callbackBtn2").hide(1000);
+        alert("The paragraph is now hidden");
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#chainBtn1").click(function(){
+        $("#chainP1").css("color", "red").slideUp(2000).slideDown(2000);
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#chainBtn2").click(function(){
+        $("#chainP2").css("color", "red")
+            .slideUp(2000)
+            .slideDown(2000);
+    });
+});
+</script>
+
+
+</head>
+<body>
+
+<p>If you click on the "Hide" button, I will disappear.</p>
+
+<h1> Fade in 1000 </h1>
+
+<button id="toggle">Toggle between hiding and showing the paragraphs</button>
+<button id="hide">Hide</button>
+<button id="show">Show</button>
+
+
+<p>Demonstrate fadeIn() with different parameters.</p>
+
+<button id="fadeInbtn">Click to fade in boxes</button><br><br>
+
+<div id="div1" style="width:80px;height:80px;display:none;background-color:red;"></div><br>
+<div id="div2" style="width:80px;height:80px;display:none;background-color:green;"></div><br>
+<div id="div3" style="width:80px;height:80px;display:none;background-color:blue;"></div>
+
+<button id="fadeoutbtn">Click to fade out boxes</button><br><br>
+
+<div id="div4" style="width:80px;height:80px;background-color:red;"></div><br>
+<div id="div5" style="width:80px;height:80px;background-color:green;"></div><br>
+<div id="div6" style="width:80px;height:80px;background-color:blue;"></div>
+
+<button id="fadeToggleBtn">Click to fade in/out boxes</button><br><br>
+
+<div id="div7" style="width:80px;height:80px;background-color:red;"></div>
+<br>
+<div id="div8" style="width:80px;height:80px;background-color:green;"></div>
+<br>
+<div id="div9" style="width:80px;height:80px;background-color:blue;"></div>
+
+<p>Demonstrate fadeTo() with different parameters.</p>
+
+<button id="fadeToBtn">Click to fade boxes</button><br><br>
+
+<div id="div10" style="width:80px;height:80px;background-color:red;"></div><br>
+<div id="div11" style="width:80px;height:80px;background-color:green;"></div><br>
+<div id="div12" style="width:80px;height:80px;background-color:blue;"></div>
+
+<div id="flip">Click to slide down panel</div>
+<div id="panel">Hello world!</div>
+
+<button id="animation1Btn">Start Animation</button>
+
+<p>By default, all HTML elements have a static position, and cannot be moved. To manipulate the position, remember to first set the CSS position property of the element to relative, fixed, or absolute!</p>
+
+<div id="ani1div" style="background:#98bf21;height:100px;width:100px;position:absolute;"></div>
+<div id="ani2div" style="background:#88cf21;height:100px;width:100px;position:absolute;"></div>
+<div id="ani3div" style="background:#ffffff;height:100px;width:100px;position:absolute;"></div>
+
+
+<br><br><br><br><br><br><br><br><br>
+<button id="animation2Btn">Start Animation Queue</button>
+
+<div id="ani4div" style="background:#aaaaaa;height:100px;width:100px;position:absolute;"></div>
+
+<br><br><br><br><br><br><br><br><br>
+<button id="animation3Btn">Start Another Animation Queue</button>
+<div id="ani5div" style="background:#98bf21;height:100px;width:200px;position:absolute;">HELLO</div>
+
+
+<br><br><br><br><br><br><br><br><br>
+
+
+<button id="stop">Stop sliding</button>
+
+<div id="flip2">Click to slide down panel</div>
+<div id="panel2">Hello world!</div>
+
+
+
+
+<br><br><br><br><br><br><br><br><br>
+<button id="callbackBtn1">Hide, DEMO OF CALLBACK</button>
+
+<p id="callbackp1">This is a paragraph with little content.</p>
+<br><br><br><br><br><br><br><br><br>
+<button id="callbackBtn2">Hide, DEMO OF CALLBACK BEFORE ANIMATION FINISHES</button>
+
+<p id="callbackp2">This is a paragraph with little content.</p>
+
+
+<br><br><br><br><br><br><br><br><br>
+<button id="chainBtn1">Click me,DEMO OF CHAIN</button>
+<p id="chainP1">jQuery is fun!!</p>
+
+
+<br><br><br><br><br><br><br><br><br>
+<button id="chainBtn2">Click me,DEMO OF CHAIN2</button>
+<p id="chainP2">jQuery is fun!!</p>
+</body>
+</body>
+</html>
