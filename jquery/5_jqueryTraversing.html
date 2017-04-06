@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<style>
+.siblings * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+
+<style>
+.descendants1 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.descendants2 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.descendants3 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.descendants4 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+
+<style>
+.ancestors * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.ancestors2 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.ancestors3 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+<style>
+.ancestors4 * { 
+    display: block;
+    border: 2px solid lightgrey;
+    color: lightgrey;
+    padding: 5px;
+    margin: 15px;
+}
+</style>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    $("#span1").parent().css({"color": "red", "border": "2px solid red"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#span2").parents().css({"color": "red", "border": "2px solid red"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#span3").parents("ul").css({"color": "red", "border": "2px solid red"});
+    $("#span3").parents("li").css({"color": "green", "border": "2px solid green"});
+    $("#span3").parents("div").css({"color": "yellow", "border": "2px solid yellow"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#span4").parentsUntil("div").css({"color": "pink", "border": "2px solid pink"});
+});
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $("#div1").children().css({"color": "blue", "border": "2px solid blue"});
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#div2").children("p.first").css({"color": "brown", "border": "2px solid brown"});
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#div3").find("span").css({"color": "red", "border": "2px solid red"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#div4").find("*").css({"color": "red", "border": "2px solid red"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#h2_1").siblings().css({"color": "green", "border": "2px solid blue"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#h2_2").siblings("p").css({"color": "green", "border": "2px solid blue"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#h2_3").next().css({"color": "green", "border": "2px solid blue"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("#h2_4").nextAll().css({"color": "green", "border": "2px solid blue"});
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+    $("#h2_5").nextUntil("h6").css({"color": "red", "border": "2px solid red"});
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("div p").first().css("background-color", "yellow");
+    $("div p").last().css("background-color", "blue");
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("p").eq(1).css("background-color", "BLACK");
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $("p").filter(".intro").css("background-color", "yellow");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+    $("p").not(".intro").css("background-color", "purple");
+});
+</script>
+
+
+
+
+</head>
+
+
+
+
+<body>
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP</h1>
+<div class="ancestors">
+  <div style="width:500px;">div (great-grandparent)
+    <ul>ul (grandparent)  
+      <li>li (direct parent)
+        <span id="span1">span</span>
+      </li>
+    </ul>   
+  </div>
+
+  <div style="width:500px;">div (grandparent)   
+    <p>p (direct parent)
+        <span>span</span>
+      </p> 
+  </div>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, PARENTS() METHOD</h1>
+<div style="width:500px;" class="ancestors2">div (great-grandparent)
+    <ul>ul (grandparent)  
+      <li>li (direct parent)
+        <span id="span2">span</span>
+      </li>
+    </ul>   
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, PARENTS() METHOD WITH FILTER</h1>
+<div style="width:500px;" class="ancestors3">div (great-grandparent)
+    <ul>ul (grandparent)  
+      <li>li (direct parent)
+        <span id="span3">span</span>
+      </li>
+    </ul>   
+</div>
+
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, PARENTSUNTIL() METHOD WITH FILTER</h1>
+<div style="width:500px;" class="ancestors4">div (great-grandparent)
+    <ul>ul (grandparent)  
+      <li>li (direct parent)
+        <span id="span4">span</span>
+      </li>
+    </ul>   
+</div>
+
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, CHILDREN(), DIRECT CHILDREN</h1>
+
+<div id="div1" class="descendants1" style="width:500px;">div (current element) 
+  <p>p (child)
+    <span>span (grandchild)</span>     
+  </p>
+  <p>p (child)
+    <span>span (grandchild)</span>
+  </p> 
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, CHILDREN(), DIRECT CHILDREN WITH FILTER</h1>
+
+<div id="div2" class="descendants2" style="width:500px;">div (current element) 
+  <p class="first">p (child)
+    <span>span (grandchild)</span>     
+  </p>
+  <p class="second">p (child)
+    <span>span (grandchild)</span>
+  </p> 
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, CHILDREN(), WITH FIND() METHOD</h1>
+<div id="div3" class="descendants3" style="width:500px;">div (current element) 
+  <p>p (child)
+    <span>span (grandchild)</span>     
+  </p>
+  <p>p (child)
+    <span>span (grandchild)</span>
+  </p> 
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, CHILDREN(), WITH FIND("*") METHOD</h1>
+<div id="div4" class="descendants4" style="width:500px;">div (current element) 
+  <p>p (child)
+    <span>span (grandchild)</span>     
+  </p>
+  <p>p (child)
+    <span>span (grandchild)</span>
+  </p> 
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, SIBLINGS()</h1>
+
+<div class="siblings1">div (parent)
+  <p>p</p>
+  <span>span</span>
+  <h2 id="h2_1">h2</h2>
+  <h3>h3</h3>
+  <p>p</p>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, SIBLINGS() WITH FILTER</h1>
+<div class="siblings1">div (parent)
+  <p>p</p>
+  <span>span</span>
+  <h2 id="h2_2">h2</h2>
+  <h3>h3</h3>
+  <p>p</p>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, NEXT()</h1>
+<div class="siblings1">div (parent)
+  <p>p</p>
+  <span>span</span>
+  <h2 id="h2_3">h2</h2>
+  <h3>h3</h3>
+  <p>p</p>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, NEXTALL()</h1>
+
+<div class="siblings1">div (parent)
+  <p>p</p>
+  <span>span</span>
+  <h2 id="h2_4">h2</h2>
+  <h3>h3</h3>
+  <p>p</p>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, NEXTUNTIL()</h1>
+
+<div>div (parent)
+  <p>p</p>
+  <span>span</span>
+  <h2 id="h2_5">h2</h2>
+  <h3>h3</h3>
+  <h4>h4</h4>
+  <h5>h5</h5>
+  <h6>h6</h6>
+  <p>p</p>
+</div>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, FILTERING, FIRST()/LAST()</h1>
+
+<h1>Welcome to My Homepage</h1>
+
+<p>This is the first paragraph in body.</p>
+
+<div style="border: 1px solid black;">
+  <p>This is the first paragraph in a div.</p>
+  <p>This is the last paragraph in a div.</p>
+</div><br>
+
+<div style="border: 1px solid black;">
+  <p>This is the first paragraph in another div.</p>
+  <p>This is the last paragraph in another div.</p>
+</div>
+
+<p>This is the last paragraph in body.</p>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, FILTERING, EQ()</h1>
+
+<h1>Welcome to My Homepage</h1>
+
+<p>My name is Donald (index 0).</p>
+<p>Donald Duck (index 1).</p>
+<p>I live in Duckburg (index 2).</p>
+<p>My best friend is Mickey (index 3).</p>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, FILTERING, FILTER()</h1>
+<h1>Welcome to My Homepage</h1>
+
+<p>My name is Donald.</p>
+<p class="intro">I live in Duckburg.</p>
+<p class="intro">I love Duckburg.</p>
+<p>My best friend is Mickey.</p>
+
+<h1>DEMO OF ANCESTOR - DESCENDANT RELATIONSHIP, FILTERING, NOT()</h1>
+
+<h1>Welcome to My Homepage</h1>
+
+<p>My name is Donald.</p>
+<p class="intro">I live in Duckburg.</p>
+<p class="intro">I love Duckburg.</p>
+<p>My best friend is Mickey.</p>
+
+
+
+
+
+</body>
+</html>
