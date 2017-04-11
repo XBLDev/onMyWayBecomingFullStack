@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSX INTRODUCTION</title>
+    <script src="https://unpkg.com/react@latest/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+	
+	function getGreeting(user) {
+		if (user) {
+			return <h1>Hello, {formatName(user)}!</h1>;
+		}
+		return <h1>Hello, Stranger.</h1>;
+	}
+	
+	function formatName(user) {
+		return user.firstName + ' ' + user.lastName;
+	}
+
+	const user = {
+		firstName: 'Harper',
+		lastName: 'Perez',
+		avatarUrl: 'my-avatar.jpg'
+	};
+
+	const element1 = (
+		<h1>
+		getgreeting: {getGreeting(user)}
+		formatname: {formatName(user)}
+	
+		</h1>
+
+		
+	);
+	
+	const element2 = (
+		<h1>
+		getgreeting: {getGreeting(user)}
+		formatname: {formatName(user)}
+		</h1>
+
+		
+	);
+	
+	const element3 = (
+        <img src={user.avatarUrl}></img>
+
+		
+	);
+		
+	const element4 = (
+		<div>
+			<h1>Hello!</h1>
+			<h2>Good to see you here.</h2>
+		</div>
+	);
+	
+	const element5 = React.createElement(
+		'h1',
+		{className: 'greeting'},
+		'Hello, world!'
+	);
+	
+	ReactDOM.render(
+		element5,
+		document.getElementById('root')
+	);
+	
+
+    </script>
+	
+	<!--
+	OUTSIDE REACT CODE, TRY DISPLAY AN IMAGE(CAN DO)
+	
+	NOTES:
+	
+	1. in the "user", variable names have to be cameltoed: avatarUrl works, avatarurl won't
+	2. it seems comments don't work in react?!
+	-->
+	<img src="my-avatar.jpg"></img>
+	
+  </body>
+</html>
