@@ -1,1 +1,3 @@
 End tick animation: http://codepen.io/du5rte/pen/XdBrgW
+Visulisation of algorithm, page transition animation: https://illustrated-algorithms-ommzftrylh.now.sh/binary-search
+Some fade, bounce animations that can be used to recreate effects in hardbound: https://react.rocks/example/velocity-react
