@@ -1,3 +1,15 @@
 End tick animation: http://codepen.io/du5rte/pen/XdBrgW
 Visulisation of algorithm, page transition animation: https://illustrated-algorithms-ommzftrylh.now.sh/binary-search
 Some fade, bounce animations that can be used to recreate effects in hardbound: https://react.rocks/example/velocity-react
+
+
+HOW TO COMPILE AND RUN REACT NATIVE APP, SOLUTION TO SOME OF THE PROBLEMS: 
+https://github.com/facebook/react-native/issues/3330
+Basically, 
+1. follow the app initiation in the tutorial: 
+https://facebook.github.io/react-native/docs/getting-started.html
+2. follow the steps in github above
+3. run "adb reverse tcp:8088 tcp:8088"
+
+OFFLINE BUNDLE JS FILE(index.android.js):
+http://stackoverflow.com/questions/34175416/how-to-use-offline-bundle-on-android-for-react-native-project
