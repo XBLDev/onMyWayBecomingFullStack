@@ -1,0 +1,8 @@
+1. Go to simulation page: https://cdn.rawgit.com/dabbott/react-native-web-player/gh-v1.9.1/index.html#title=React%20Native%20Web%20Player
+
+2. Copy all the code from: index.android.js
+
+3. Paste the code to the left side of the simulation page
+
+4. result should be shown on the right side. It may look tightly packed and UI may jump up and down because the simulation screen is too small, alignment is correct on 
+real device and no UI jumping on real device.

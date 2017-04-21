@@ -1,0 +1,9 @@
+21/04/2017:
+
+Comment on React Native:
+
+1. Facebook provides a set of tools for building android app, the complie speed is better than using Android Studio.
+2. React Native can show change on screen without re-compile, similar to the fast-compile function of Android Studio. But for now there's bug related
+to the port number(8088/8081) that make fast compile not usable. Should find a way to enable this function to speed up production.
+3. React Native can be developed without Android Studio, and the web simulation can give error logs for debugging.
+   
