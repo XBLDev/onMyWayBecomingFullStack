@@ -7,3 +7,6 @@ Comment on React Native:
 to the port number(8088/8081) that make fast compile not usable. Should find a way to enable this function to speed up production.
 3. React Native can be developed without Android Studio, and the web simulation can give error logs for debugging.
    
+24/04/2017:
+
+First page animation is easy, still need to find a way to transition from 1st to 2nd page.
