@@ -150,24 +150,101 @@ export default class aSample extends Component {
   
   constructor(props) {
     super(props);
-    this.state = {readText: true, firstPage: true, pageNum: 0};
+    //this.props._value = 0;
+    this.state = {
+    
+      
+      
+      firstPage: true, 
+      pageNum: 0,
+      topImagefadeIn: new Animated.Value(0),          // Initial value for opacity: 0
+      topImagefadeOut: new Animated.Value(1),           // Initial value for opacity: 0
+
+      imageFadeOutProgress : 1,
+    };
     
     this._onPressed = this._onPressed.bind(this);
-    
+    this.state.topImagefadeOut.addListener(({value}) => this.state.imageFadeOutProgress = value);
+    //this.state.topImagefadeOut.addListener(({value}) => this.props._value = value);
+
   }
   _onPressed() {
    
-    this.setState({ readText: !this.state.readText });
+    
     this.setState({ firstPage: !this.state.firstPage });
     this.setState({ pageNum: this.state.pageNum + 1 });
+    
+    
+    
+    
   }
+  componentDidUpdate()
+  { 
+    
+     
+    
+
+    
+    if(this.state.pageNum == 1)
+      {
+        
+    Animated.timing(                            // Animate over time
+      this.state.topImagefadeIn,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                             // Animate to opacity: 1, or fully opaque
+      }
+    ).start();                                  // Starts the animatio     
+        
+        
+        
+        
+     Animated.timing(                            // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                             // Animate to opacity: 1, or fully opaque
+      }
+    ).start();                                  // Starts the animatio   
+        
+        
+     Animated.timing(                            // Animate over time
+      this.state.topImagefadeIn,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 1,                             // Animate to opacity: 1, or fully opaque
+      }
+    ).start();                                  // Starts the animatio     
+        
+        
+        
+        
+      }
+    
+    
+    
+  }
+  
+  componentDidMount() {
+    Animated.timing(                            // Animate over time
+      this.state.topImagefadeIn,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 1,                             // Animate to opacity: 1, or fully opaque
+      }
+    ).start();                                   // Starts the animation
+  }
+  
+  
   
   render() {
 
-    
-	let pic = this.state.firstPage ? {
+     
+	let pic = this.state.pageNum == 0? {
       uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
-    }:{uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'};  
+    }: 
+    this.state.imageFadeOutProgress == 0? {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}
+                                      :{uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'};  
 	
     let bodystyle = this.state.firstPage ? styles.instructions:styles.instructions2;
     let headerstyle = this.state.firstPage ? styles.welcome2:styles.welcome4;
@@ -177,6 +254,23 @@ export default class aSample extends Component {
     let timeAndActivity = this.state.firstPage ? '3min, 2 activities' : '';
     let opaqueValue = this.state.firstPage? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
+    
+    let topimageStyle = this.state.pageNum == 0?
+    {
+        opacity: this.state.topImagefadeIn, // Binds directly
+
+    }
+    :this.state.imageFadeOutProgress == 1?
+    {
+        opacity: 1,  // Binds directl
+    }:
+    {
+        opacity: 1, // Binds directly}
+    }
+    
+    
+    
+    
     return (
      
       <TouchableWithoutFeedback onPress={this._onPressed} style={styles.container}>
@@ -184,9 +278,9 @@ export default class aSample extends Component {
         
       <View style={styles.container} >
         
-        
-        <Image source={pic} style={{width: 50, height: 50}} />
-        
+        <Animated.View style={topimageStyle}>
+          <Image source={pic} style={{width: 50, height: 50}} />
+        </Animated.View>
         
          <FadeInView>
           <Text style={headerstyle}  >
