@@ -16,3 +16,26 @@ First page animation is easy, still need to find a way to transition from 1st to
 I thought i can use state update to indicate whether the fadeout animation of previous page is finished so i can go onto the next page, but somehow the state 
 update is in certain cases not detected, and even when detected, it's not happening on the second page: i have to go back to the first page to see that pen change 
 to a green apple. Maybe there's something fundamentally wrong with the way I do it.
+
+27/04/2017:
+
+General suggestion from website: DO NOT USE ANIMATED() FOR ANIMATION, and that's exactly what i've been doing all this time.
+
+WHAT I'VE BEEN TRYING TO DO: with the head icon/pic/image, when clicked, first fade out, change the image from the pen to the apple, and fade in.
+
+More specifically, i want the end of the animation to serve as the indicator that the fade out is finished, and from there change the image and fade in.
+
+I think it should be easy to handle other animations once this one is done. Seemingly small task, but already spent 3 days on it.
+
+Seems that i can't have everything: either the image changes without animation, or animation without image change, and sometimes when the image changes, 
+it's just a flash and the image disappears. The callback either not working, or the image changes but no animation.
+
+Some other animation options: 
+
+1. lottie the react native plugin, tried running it, but it seems that it requires a couple more plugins to install, and i don't think it can actually do what i need, 
+besides, it won't be possible to show the result on the web simulator if i use that plugin, which is the problem for any other animation APIs that requires importing some 
+other dependencies.
+
+2. LayoutAnimation and react-native-animatable: suggestion from this website: https://blog.bam.tech/developper-news/5-tips-to-make-a-great-component-to-page-animation-in-react-native, both require more dependencies, and not really well documented either. The LayoutAnimation looks more usable though, it has official documentation.
+
+ 

@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Easing,
+  LayoutAnimation,
 } from 'react-native';
 
 
@@ -96,7 +97,7 @@ class FadeInView extends Component {
     Animated.timing(                            // Animate over time
       this.state.fadeAnim,                      // The animated value to drive
       {
-        duration: 500,
+        duration: 5,
         toValue: 1,                             // Animate to opacity: 1, or fully opaque
       }
     ).start();                                  // Starts the animation
@@ -111,7 +112,7 @@ class FadeInView extends Component {
     transform: [{
       translateY: this.state.fadeAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: [150, 0]  // 0 : 150, 0.5 : 75, 1 : 0
+        outputRange: [150, 0]   // 0 : 150, 0.5 : 75, 1 : 0
       }),
     }],
   }}
@@ -150,80 +151,76 @@ export default class aSample extends Component {
   
   constructor(props) {
     super(props);
+    this.springValue =new Animated.Value(0);
+      
+      
+
+
+      
+      
+      
+     
     //this.props._value = 0;
+    this.props.pageNumber = 0;
     this.state = {
     
-      
+     pageNumber: new Animated.Value(0),
+     topImagefadeIn: new Animated.Value(0),            // Initial value for opacity: 0
+      topImagefadeOut: new Animated.Value(1),           // Initial value for opacity: 0     
       
       firstPage: true, 
       pageNum: 0,
-      topImagefadeIn: new Animated.Value(0),          // Initial value for opacity: 0
-      topImagefadeOut: new Animated.Value(1),           // Initial value for opacity: 0
-
+      alpha :  new Animated.Value(0), 
+      
       imageFadeOutProgress : 1,
     };
     
-    this._onPressed = this._onPressed.bind(this);
-    this.state.topImagefadeOut.addListener(({value}) => this.state.imageFadeOutProgress = value);
+        //({value}) => this._value = value
+     this.state.pageNumber.addListener(({value}) => this.state.pageNum = value);
+    
+    //this.changePageNum = this.changePageNum.bind(this);
+     //this.onCompleted = this.onCompleted.bind(this);
+    this.animateHeadImgFadeOut = this.animateHeadImgFadeOut.bind(this);   
+     this._onPressed = this._onPressed.bind(this);
+    this.cycleAnimation = this.cycleAnimation.bind(this);
+    //this.state.topImagefadeOut.addListener(({value}) => this.state.imageFadeOutProgress = value);
     //this.state.topImagefadeOut.addListener(({value}) => this.props._value = value);
 
   }
-  _onPressed() {
-   
-    
-    this.setState({ firstPage: !this.state.firstPage });
+  
+  changePageNum()
+  {
     this.setState({ pageNum: this.state.pageNum + 1 });
     
     
+  }
+  
+  
+  
+  _onPressed() {
+    this.cycleAnimation();
+    //this.animateHeadImgFadeOut();
+    //this.onCompleted();
+    //this.setState({ firstPage: !this.state.firstPage });
+    //this.setState({ pageNum: this.state.pageNum + 1 });
+    
+    
     
     
   }
-  componentDidUpdate()
-  { 
-    
-     
-    
 
-    
-    if(this.state.pageNum == 1)
-      {
-        
-    Animated.timing(                            // Animate over time
-      this.state.topImagefadeIn,                      // The animated value to drive
-      {
-        duration: 500,
-        toValue: 0,                             // Animate to opacity: 1, or fully opaque
-      }
-    ).start();                                  // Starts the animatio     
-        
-        
-        
-        
-     Animated.timing(                            // Animate over time
-      this.state.topImagefadeOut,                      // The animated value to drive
-      {
-        duration: 500,
-        toValue: 0,                             // Animate to opacity: 1, or fully opaque
-      }
-    ).start();                                  // Starts the animatio   
-        
-        
-     Animated.timing(                            // Animate over time
-      this.state.topImagefadeIn,                      // The animated value to drive
-      {
-        duration: 500,
-        toValue: 1,                             // Animate to opacity: 1, or fully opaque
-      }
-    ).start();                                  // Starts the animatio     
-        
-        
-        
-        
-      }
-    
-    
-    
-  }
+  
+  spring () {
+  this.springValue.setValue(0.3)
+  Animated.spring(
+    this.springValue,
+    {
+      toValue: 1,
+      friction: 1
+    }
+  ).start()
+}
+  
   
   componentDidMount() {
     Animated.timing(                            // Animate over time
@@ -232,38 +229,174 @@ export default class aSample extends Component {
         duration: 500,
         toValue: 1,                             // Animate to opacity: 1, or fully opaque
       }
-    ).start();                                   // Starts the animation
+    ).start();                                       //  Starts the animation
   }
+  
+  componentDidUpdate()
+  {
+    
+    //({value}) => this._value = value
+     //this.state.pageNumber.addListener(this.changePageNum.bind());
+
+    //this.cycleAnimation();
+    
+  }
+  
+  componentWillUpdate()
+  {
+    
+    //this.cycleAnimation();
+    
+  }
+  
+  
+  //this.state.animatedStartValue = 0;
+
+cycleAnimation() {
+
+  
+  
+  
+  
+  //this.setState({ pageNum: this.state.pageNum + 1 });
+  Animated.sequence([
+
+    
+Animated.parallel([
+  Animated.timing
+  (
+    this.state.pageNumber, 
+    {
+      toValue: 1,
+      duration: 500,
+      //delay: 1000
+    }
+  ), 
+  
+   
+    
+
+  
+  
+    Animated.timing(this.state.topImagefadeOut, {
+      toValue: 0,
+      duration: 500,
+      //delay: 1000
+    }),
+    ]),
+    
+    
+    Animated.timing(this.state.topImagefadeOut, {
+      toValue: 1,
+      duration: 500
+   }),
+    
+  //  Animated.timing(this.state.alpha, {
+  //    toValue: 0,
+      //duration: 500
+  // }),
+    
+  ]).start(event => {
+    if (event.finished) {
+      //this.cycleAnimation();
+      
+    }
+  });
+  
+  
+  
+  
+  
+   //this.setState({ pageNum: this.state.pageNum + 1 });
+  
+}
+  
+  
+  
+  animateHeadImgFadeOut()
+  {
+    Animated.timing(                              // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 1,                               //Animate to opacity: 1, or fully opaque
+      }
+    ).start
+    (
+      
+      event => {
+    if (event.finished) {
+      this.setState({ pageNum: this.state.pageNum + 1 });
+    }
+  }
+       //this.onCompleted.bind(this),
+       //this.onCompleted.bind(this),
+       //this.setState({ pageNum: this.state.pageNum + 1 }),
+//      function onComplete() 
+//      {
+//        this.props.pageNumber = 1;
+//      }
+    );                                     //     Starts the animatio   
+    
+    //this.stopAnimation.bind(this)
+    //this.animateValue.spring({}).start(function onComplete() {})
+     //this.setState({ pageNum: this.state.pageNum + 1 });
+    
+  }
+  
+  
+
+      
+      
+      
+      
+  onCompleted()
+  {
+    this.setState({ pageNum: this.state.pageNum + 1 });
+  }
+  
+  
   
   
   
   render() {
 
-     
+    
+    
+  //const spin = this.state.alpha.interpolate({
+  //  inputRange: [0, 1, 2],
+  //  outputRange: ['0', '1', '2']
+  //})
 	let pic = this.state.pageNum == 0? {
       uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
-    }: 
-    this.state.imageFadeOutProgress == 0? {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}
-                                      :{uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'};  
+    }: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'};
+                                        
 	
-    let bodystyle = this.state.firstPage ? styles.instructions:styles.instructions2;
-    let headerstyle = this.state.firstPage ? styles.welcome2:styles.welcome4;
-    let header = this.state.firstPage ? 'CONTENT' : 'WE WILL ANSWER:';
-    let bodytext = this.state.firstPage ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
-    let author = this.state.firstPage ? 'Ryan Holiday, Author and Strategist' : '';
-    let timeAndActivity = this.state.firstPage ? '3min, 2 activities' : '';
-    let opaqueValue = this.state.firstPage? 1 : 0;
+    //let bodystyle = this.state.firstPage ? styles.instructions:styles.instructions2;
+    //let headerstyle = this.state.firstPage ? styles.welcome2:styles.welcome4;
+    //let header = this.state.firstPage ? 'CONTENT' : 'WE WILL ANSWER:';
+    //let bodytext = this.state.firstPage ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
+    //let author = this.state.firstPage ? 'Ryan Holiday, Author and Strategist' : '';
+    //let timeAndActivity = this.state.firstPage ? '3min, 2 activities' : '';
+    //let opaqueValue = this.state.firstPage? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
     
     let topimageStyle = this.state.pageNum == 0?
     {
-        opacity: this.state.topImagefadeIn, // Binds directly
+        opacity:   
+		//1,
+        //spin,
+        this.state.topImagefadeOut,
+
+      //this.state.topImagefadeOut.interpolate
+      // ({
+      //  inputRange: [0, 1],
+      //  outputRange: [1, 0]
+      //  }),
+      
 
     }
-    :this.state.imageFadeOutProgress == 1?
-    {
-        opacity: 1,  // Binds directl
-    }:
+    :
     {
         opacity: 1, // Binds directly}
     }
@@ -282,29 +415,7 @@ export default class aSample extends Component {
           <Image source={pic} style={{width: 50, height: 50}} />
         </Animated.View>
         
-         <FadeInView>
-          <Text style={headerstyle}  >
-           {header}
-          </Text>
-        </FadeInView>
-        
-        <FadeInView>
-          <Text style={bodystyle}>
-            {bodytext}
-          </Text>
-        </FadeInView>
-        
-        <PositionMoveView >
-          <Text style={styles.welcome3}>
-            {author}
-          </Text>
-		</PositionMoveView>
-        
-		<PositionMoveView >
-        <Text style={styles.welcome3}>
-          {timeAndActivity}
-        </Text>
-        </PositionMoveView>
+
         
         
         
