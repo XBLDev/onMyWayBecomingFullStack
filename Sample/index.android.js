@@ -97,7 +97,7 @@ class FadeInView extends Component {
     Animated.timing(                            // Animate over time
       this.state.fadeAnim,                      // The animated value to drive
       {
-        duration: 5,
+        duration: 1000,
         toValue: 1,                             // Animate to opacity: 1, or fully opaque
       }
     ).start();                                  // Starts the animation
@@ -106,13 +106,13 @@ class FadeInView extends Component {
   
   render() {
     return (
-      <Animated.View                            // Special animatable View
+      <Animated.View                              // Special animatable View
         style={{
     opacity: this.state.fadeAnim, // Binds directly
     transform: [{
       translateY: this.state.fadeAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: [150, 0]   // 0 : 150, 0.5 : 75, 1 : 0
+        outputRange: [100, 0]   // 0 : 150, 0.5 : 75, 1 : 0
       }),
     }],
   }}
@@ -152,26 +152,28 @@ export default class aSample extends Component {
   constructor(props) {
     super(props);
     this.springValue =new Animated.Value(0);
+    this.topImagefadeOutAnim = new Animated.Value(0);
       
-      
+    
 
-
-      
+    //this.bttomAuthorXPosition = 0;
       
       
      
-    //this.props._value = 0;
+     //this.props._value = 0;
     this.props.pageNumber = 0;
     this.state = {
-    
+     bottomAuthorXPosition: new Animated.Value(1200),
+     bodyTextYPosition: new Animated.Value(150),
+     bodyFade: new Animated.Value(0),
      pageNumber: new Animated.Value(0),
-     topImagefadeIn: new Animated.Value(0),            // Initial value for opacity: 0
-      topImagefadeOut: new Animated.Value(1),           // Initial value for opacity: 0     
+     topImagefadeIn: new Animated.Value(0),                // Initial value for opacity: 0
+      topImagefadeOut: new Animated.Value(0),           // Initial value for opacity: 0     
       
       firstPage: true, 
       pageNum: 0,
       alpha :  new Animated.Value(0), 
-      
+      AuthorfadeAnim: new Animated.Value(0),          // Initial value for opacity: 0
       imageFadeOutProgress : 1,
     };
     
@@ -198,8 +200,8 @@ export default class aSample extends Component {
   
   
   _onPressed() {
-    this.cycleAnimation();
-    //this.animateHeadImgFadeOut();
+    //this.cycleAnimation();
+    this.animateHeadImgFadeOut();
     //this.onCompleted();
     //this.setState({ firstPage: !this.state.firstPage });
     //this.setState({ pageNum: this.state.pageNum + 1 });
@@ -223,23 +225,65 @@ export default class aSample extends Component {
   
   
   componentDidMount() {
-    Animated.timing(                            // Animate over time
-      this.state.topImagefadeIn,                      // The animated value to drive
+    
+    Animated.parallel([
+    
+    Animated.timing(                                // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
       {
-        duration: 500,
-        toValue: 1,                             // Animate to opacity: 1, or fully opaque
+        duration: 1000,
+        toValue: 0,                              // Animate to opacity: 1, or fully opaque
       }
-    ).start();                                       //  Starts the animation
+    ),
+      //  Starts the animation
+    Animated.timing(                               // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 1000,
+        toValue: 1,                              // Animate to opacity: 1, or fully opaque
+      }
+    ),                                        //  Starts the animation
+      
+          //  Starts the animation
+    Animated.timing(                               // Animate over time
+      this.state.bodyFade,                      // The animated value to drive
+      {
+        delay: 1000,
+        duration: 1000,
+        toValue: 1,                               // Animate to opacity: 1, or fully opaque
+      }
+    ),                                        //  Starts the animation  
+    
+    Animated.timing(                             // Animate over time
+      this.state.AuthorfadeAnim,                      // The animated value to drive
+      {
+        duration: 1000,
+        toValue: 1,                              // Animate to opacity: 1, or fully opaque
+      }
+    ),                                        //  Starts the animation     
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 0,
+        //easing: Easing.bounce,
+        duration: 1000,
+    
+      }                              
+    ),  
+      
+    ]).start();
+    
   }
   
   componentDidUpdate()
   {
     
-    //({value}) => this._value = value
+     //({value}) => this._value = value
      //this.state.pageNumber.addListener(this.changePageNum.bind());
 
-    //this.cycleAnimation();
-    
+     this.cycleAnimation();
+     //this.animateHeadImgFadeOut();
   }
   
   componentWillUpdate()
@@ -263,33 +307,43 @@ cycleAnimation() {
 
     
 Animated.parallel([
-  Animated.timing
-  (
-    this.state.pageNumber, 
-    {
-      toValue: 1,
-      duration: 500,
-      //delay: 1000
-    }
-  ), 
+
   
-   
     
+        
 
   
   
-    Animated.timing(this.state.topImagefadeOut, {
-      toValue: 0,
-      duration: 500,
+    Animated.timing(
+      this.state.topImagefadeOut, {
+      toValue: 1,
+      duration: 2000,
       //delay: 1000
     }),
-    ]),
     
-    
-    Animated.timing(this.state.topImagefadeOut, {
+    Animated.timing(
+      this.state.bodyFade, {
       toValue: 1,
-      duration: 500
-   }),
+      duration: 2000,
+      delay: 500
+    }),
+
+    Animated.timing(                                // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 2000,
+        toValue: 0,                                // Animate to opacity: 1, or fully opaque
+        delay: 500,
+      }
+    ),      
+
+]),
+    
+    
+//    Animated.timing(this.state.topImagefadeOut, {
+//      toValue: 0.5,
+ //     duration: 500
+//   }),
     
   //  Animated.timing(this.state.alpha, {
   //    toValue: 0,
@@ -315,18 +369,50 @@ Animated.parallel([
   
   animateHeadImgFadeOut()
   {
-    Animated.timing(                              // Animate over time
+    
+    Animated.parallel([
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 1200,
+        //easing: Easing.bounce,
+        duration: 500,
+    
+      }                              
+    ),      
+
+    Animated.timing(                                // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 1000,
+        toValue: 150,                              // Animate to opacity: 1, or fully opaque
+      }
+    ),      
+      
+    
+    Animated.timing(                                // Animate over time
       this.state.topImagefadeOut,                      // The animated value to drive
       {
         duration: 500,
-        toValue: 1,                               //Animate to opacity: 1, or fully opaque
+        toValue: 0,                                  //Animate to opacity: 1, or fully opaque
       }
-    ).start
+    ),
+      
+    Animated.timing(                                // Animate over time
+      this.state.bodyFade,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                  //Animate to opacity: 1, or fully opaque
+      }
+    ),      
+      ])
+      .start
     (
       
       event => {
     if (event.finished) {
-      this.setState({ pageNum: this.state.pageNum + 1 });
+      this.setState({ pageNum: this.state.pageNum + 1 }, this.cycleAnimation());
     }
   }
        //this.onCompleted.bind(this),
@@ -338,8 +424,8 @@ Animated.parallel([
 //      }
     );                                     //     Starts the animatio   
     
-    //this.stopAnimation.bind(this)
-    //this.animateValue.spring({}).start(function onComplete() {})
+     //this.stopAnimation.bind(this)
+     //this.animateValue.spring({}).start(function onComplete() {})
      //this.setState({ pageNum: this.state.pageNum + 1 });
     
   }
@@ -356,29 +442,37 @@ Animated.parallel([
   }
   
   
-  
+  pageURI_array = 
+  [
+     
+      1: {uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'}, 
+      2: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}, 
+      
+    
+  ];
   
   
   render() {
 
     
     
-  //const spin = this.state.alpha.interpolate({
+    //const spin = this.state.alpha.interpolate({
   //  inputRange: [0, 1, 2],
   //  outputRange: ['0', '1', '2']
   //})
 	let pic = this.state.pageNum == 0? {
       uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
     }: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'};
-                                        
-	
-    //let bodystyle = this.state.firstPage ? styles.instructions:styles.instructions2;
-    //let headerstyle = this.state.firstPage ? styles.welcome2:styles.welcome4;
-    //let header = this.state.firstPage ? 'CONTENT' : 'WE WILL ANSWER:';
-    //let bodytext = this.state.firstPage ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
-    //let author = this.state.firstPage ? 'Ryan Holiday, Author and Strategist' : '';
-    //let timeAndActivity = this.state.firstPage ? '3min, 2 activities' : '';
-    //let opaqueValue = this.state.firstPage? 1 : 0;
+    
+    //let pic2 = this.pageURI_array[this.state.pageNum];
+	  
+    let bodystyle = this.state.pageNum == 0 ? styles.instructions:styles.instructions2;
+    let headerstyle = this.state.pageNum == 0 ? styles.welcome2:styles.welcome4;
+    let header = this.state.pageNum == 0 ? 'CONTENT' : 'WE WILL ANSWER:';
+    let bodytext = this.state.pageNum == 0 ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
+    let author = this.state.pageNum == 0 ? 'Ryan Holiday, Author and Strategist' : '';
+    let timeAndActivity = this.state.pageNum == 0 ? '3min, 2 activities' : '';
+    let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
     
     let topimageStyle = this.state.pageNum == 0?
@@ -398,7 +492,9 @@ Animated.parallel([
     }
     :
     {
-        opacity: 1, // Binds directly}
+        opacity: 
+        //1, // Binds directly}
+        this.state.topImagefadeOut,
     }
     
     
@@ -409,17 +505,70 @@ Animated.parallel([
       <TouchableWithoutFeedback onPress={this._onPressed} style={styles.container}>
         
         
-      <View style={styles.container} >
+        <View style={styles.container} >
         
-        <Animated.View style={topimageStyle}>
-          <Image source={pic} style={{width: 50, height: 50}} />
-        </Animated.View>
-        
+          <Animated.View style={topimageStyle}>
+            <Image source={pic} style={{width: 50, height: 50}} />
+          </Animated.View>
+          
+           
+          <Animated.View style={topimageStyle}>
+            <Text style={headerstyle}  >
+            {header}
+            </Text>
+          </Animated.View>
+         
+          
+          
+          <Animated.View                             
+            style=
+            {{
+                opacity: this.state.bodyFade,
+
+                top: this.state.bodyTextYPosition, 
+            }}
+           >
+            <Text style={bodystyle}>
+             {bodytext}
+            </Text>
+          </Animated.View>
+         
+          
+          
+          <Animated.View                                   //  Special animatable View
+              style={{
+                //opacity: this.state.topImagefadeOut,
+                right: this.state.bottomAuthorXPosition,           // Bind opacity to animated value
+                
+              }}
+           >
+            <Text style={styles.welcome3}>
+             {author}
+            </Text>
+ 		   </Animated.View>
+         
+           <Animated.View                            // Special animatable View
+              style={{
+                //opacity: this.state.topImagefadeOut,
+                right: this.state.bottomAuthorXPosition,           // Bind opacity to animated value
+                
+              }}
+           >
+            <Text style={styles.welcome3}>
+             {timeAndActivity}
+            </Text>
+           </Animated.View>
+          
+          
+          
+          
+          
+        </View>
+
+         
 
         
         
-        
-      </View>
         
         
         
@@ -470,7 +619,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 5,
 	color: '#D3D3D3',
-    //fontWeight: 'bold'
+     //fontWeight: 'bold'
   },
   
   instructions: {

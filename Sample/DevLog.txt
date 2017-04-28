@@ -43,3 +43,33 @@ Some quotes from a stackoverflow question:
 "I have several active animations in a component. When I am trying to update a component state during these animations they stop due to the rerendering process. Is there any way to prevent this from happening?"
 
 So it looks like updating a state can stop animations. 
+
+28/04/2017:
+
+Update: easy page transition animations from page1 to page2 achieved: combination of translation and alpha change over time.
+
+The top image changing from pen to apple sometimes doesn't appear on the web simulation, but ok on mobile phone (I think).
+
+The time interval between different animations can be shorter to make it more hardbound-ish. Higher speed(duration) of animation may help as well.
+
+It turns out that the way i tried to do it was right: first do the animations that get rid of all the first page content by moving them away or fading them out, and 
+at the end of the animation, trigger the callback which updates the pageNum state, and start the second page animation in componentDidUpdate() which starts only when 
+states are updated. The reason why i couldn't see it yesterday was because of the web simulation wouldn't display the app image most of the time, which could because of 
+my way of implementation, or just a bug.
+
+The way it is now, there are certain limitations: 
+
+1. i can't start the 2nd page animations until all the 1st page animations are finished, but that may not be a problem, since i can just use one 1st page animation to trigger the callback, and do fade out of rest of 1st page and fade in of 2nd page afterwards, could use different sequences of animations to make the fade in/out more dynamic/interesting.
+
+2. Once the page number increases to a certain level, it will become difficult to keep track of lists of animations used for different page transitions. Perhaps need a 
+better way to store the animations, possibly as an array list or something like that.
+
+Goal for next week/over weenkend: 
+
+1. finish the primer example with less pages, since most of the pages have similar structures, just one of those similar pages should be enough.
+
+The difficult part is presumably the transition from "normal" page to those quiz pages where you answer questions.
+
+Some of the page animations could be hard to do as well. Explore different types of animations with different page transitions.
+
+2. If i have anytime left, build a complete app with start menu, and "back to menu" option at the final page of the example.
