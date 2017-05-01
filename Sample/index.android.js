@@ -153,22 +153,72 @@ export default class aSample extends Component {
     super(props);
     this.springValue =new Animated.Value(0);
     this.topImagefadeOutAnim = new Animated.Value(0);
+// 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
       
+    this.bodyText = {
+     '0':'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story',
+     '1':'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?',
+     '2':'Imagine that theres a business onwer Michael, '+'\n'+'who makes hats for cats, donating part of his money to animal rescues, '+'\n'+'\n'+'WHATS A BETTER STARTING POINT FOR MACHAELS STORY?', 
+    }
     
+    this.TitleText = {
+     '0':'CONTENT',
+     '1':'WE WIIL ANSWER:',
+     '2':'', 
+    }
+    
+    this.bottomText = {
+     '0':'Ryan Holiday, Author and Strategist',
+     '1':'',
+     '2':'Lets see', 
+    }
 
+    this.bottomStyle = {
+     '0':styles.welcome3,
+     '1':styles.welcome3,
+     '2':styles.welcome5, 
+    }    
+        
+    this.letsSeeIcon = {
+     '0':'',
+     '1':'',
+     '2':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
+    }
+    
+    this.letsSeeIconSize = {
+     '0':0,
+     '1':0,
+     '2':30, 
+    }
+    
+    this.headIconSize = {
+     '0':50,
+     '1':50,
+     '2':100, 
+    }
     //this.bttomAuthorXPosition = 0;
-      
-      
+      //this.state.stored['ok']
+      //styles.welcome3
      
      //this.props._value = 0;
     this.props.pageNumber = 0;
     this.state = {
-     bottomAuthorXPosition: new Animated.Value(1200),
+      
+     stored: {
+     '0':{uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'},
+     '1':{uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'},
+     '2':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'}
+     }, 
+     //https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png
+      
+      bottomAuthorXPosition: new Animated.Value(1200),
      bodyTextYPosition: new Animated.Value(150),
      bodyFade: new Animated.Value(0),
      pageNumber: new Animated.Value(0),
      topImagefadeIn: new Animated.Value(0),                // Initial value for opacity: 0
       topImagefadeOut: new Animated.Value(0),           // Initial value for opacity: 0     
+      
+      letsSeeIconFade: new Animated.Value(0),
       
       firstPage: true, 
       pageNum: 0,
@@ -297,12 +347,9 @@ export default class aSample extends Component {
   //this.state.animatedStartValue = 0;
 
 cycleAnimation() {
-
   
-  
-  
-  
-  //this.setState({ pageNum: this.state.pageNum + 1 });
+if(this.state.pageNum.toString()=='1')//FROM PAGE1 TO PAGE2
+{
   Animated.sequence([
 
     
@@ -328,27 +375,16 @@ Animated.parallel([
       delay: 500
     }),
 
-    Animated.timing(                                // Animate over time
+    Animated.timing(                                 // Animate over time
       this.state.bodyTextYPosition,                      // The animated value to drive
       {
         duration: 2000,
-        toValue: 0,                                // Animate to opacity: 1, or fully opaque
+        toValue: 0,                                  // Animate to opacity: 1, or fully opaque
         delay: 500,
       }
     ),      
 
 ]),
-    
-    
-//    Animated.timing(this.state.topImagefadeOut, {
-//      toValue: 0.5,
- //     duration: 500
-//   }),
-    
-  //  Animated.timing(this.state.alpha, {
-  //    toValue: 0,
-      //duration: 500
-  // }),
     
   ]).start(event => {
     if (event.finished) {
@@ -357,11 +393,56 @@ Animated.parallel([
     }
   });
   
+}
+else if(this.state.pageNum.toString()=='2')//FROM PAGE2 TO PAGE3
+{
+  //this.state.bottomAuthorXPosition
+  Animated.sequence([
+Animated.parallel([
+    Animated.timing(
+      this.state.topImagefadeOut, {
+      toValue: 1,
+      duration: 2000,
+      //delay: 1000
+    }),
+    
+    Animated.timing(
+      this.state.bodyFade, {
+      toValue: 1,
+      duration: 2000,
+      delay: 500
+    }),
+
+    Animated.timing(                                 // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 2000,
+        toValue: 0,                                  // Animate to opacity: 1, or fully opaque
+        delay: 500,
+      }
+    ),      
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 0,
+        //easing: Easing.bounce,
+        duration: 1000,
+        delay: 2500,
+      }                              
+    ),  
+  
+     
   
   
+]),
+  ]).start(event => {
+    if (event.finished) {
+    }
+  });  
+}
   
-  
-   //this.setState({ pageNum: this.state.pageNum + 1 });
+
   
 }
   
@@ -369,7 +450,7 @@ Animated.parallel([
   
   animateHeadImgFadeOut()
   {
-    
+ if(this.state.pageNum.toString()=='0'){//FROM PAGE1 TO PAGE2, PAGE1 ANIMATION  
     Animated.parallel([
     
     Animated.timing(
@@ -412,23 +493,63 @@ Animated.parallel([
       
       event => {
     if (event.finished) {
-      this.setState({ pageNum: this.state.pageNum + 1 }, this.cycleAnimation());
+      this.setState({ pageNum: this.state.pageNum + 1 });
     }
   }
-       //this.onCompleted.bind(this),
-       //this.onCompleted.bind(this),
-       //this.setState({ pageNum: this.state.pageNum + 1 }),
-//      function onComplete() 
-//      {
-//        this.props.pageNumber = 1;
-//      }
+
     );                                     //     Starts the animatio   
+ }
+if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
+    Animated.parallel([
     
-     //this.stopAnimation.bind(this)
-     //this.animateValue.spring({}).start(function onComplete() {})
-     //this.setState({ pageNum: this.state.pageNum + 1 });
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 1200,
+        //easing: Easing.bounce,
+        duration: 500,
     
+      }                              
+    ),      
+
+    Animated.timing(                                 // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 1000,
+        toValue: 150,                              // Animate to opacity: 1, or fully opaque
+      }
+    ),      
+      
+    
+    Animated.timing(                                // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                  //Animate to opacity: 1, or fully opaque
+      }
+    ),
+      
+    Animated.timing(                                // Animate over time
+      this.state.bodyFade,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                   //Animate to opacity: 1, or fully opaque
+      }
+    ),      
+      ])
+      .start
+    (
+      
+      event => {
+    if (event.finished) {
+      this.setState({ pageNum: this.state.pageNum + 1 });//, this.cycleAnimation()
+    }
   }
+
+    );                                     //     Starts the animatio     
+}
+
+}
   
   
 
@@ -442,37 +563,48 @@ Animated.parallel([
   }
   
   
-  pageURI_array = 
-  [
-     
-      1: {uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'}, 
-      2: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}, 
-      
-    
-  ];
-  
+
   
   render() {
 
     
+  //  const numbers = [{
+  //    uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
+  //  }, {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}, 3, 4, 5];
     
+  //  const doubled = numbers.map((number) => number * 2);
     //const spin = this.state.alpha.interpolate({
   //  inputRange: [0, 1, 2],
   //  outputRange: ['0', '1', '2']
   //})
+    //this.state.stored['ok']
 	let pic = this.state.pageNum == 0? {
       uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
     }: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'};
     
-    //let pic2 = this.pageURI_array[this.state.pageNum];
+    let pic2 = this.state.stored[this.state.pageNum.toString()];
 	  
+    let letsSeePic = this.letsSeeIcon[this.state.pageNum.toString()];
+
+    
     let bodystyle = this.state.pageNum == 0 ? styles.instructions:styles.instructions2;
+    //letsSeeIconSize
+    let letsCIconSize = this.letsSeeIconSize[this.state.pageNum.toString()];
     let headerstyle = this.state.pageNum == 0 ? styles.welcome2:styles.welcome4;
     let header = this.state.pageNum == 0 ? 'CONTENT' : 'WE WILL ANSWER:';
+    let header2 = this.TitleText[this.state.pageNum.toString()];
+    //headIconSize
+    let currHeadIconSize = this.headIconSize[this.state.pageNum.toString()];
     let bodytext = this.state.pageNum == 0 ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
+    let bodytext2 = this.bodyText[this.state.pageNum.toString()];
+    
     let author = this.state.pageNum == 0 ? 'Ryan Holiday, Author and Strategist' : '';
+    let currbottomText = this.bottomText[this.state.pageNum.toString()];
+    let currBottomStyle = this.bottomStyle[this.state.pageNum.toString()];
+    let currLetsSeeIconOpacity = this.state.letsSeeIconFade;
+    //bottomStyle
     let timeAndActivity = this.state.pageNum == 0 ? '3min, 2 activities' : '';
-    let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
+     //let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
     
     let topimageStyle = this.state.pageNum == 0?
@@ -493,7 +625,7 @@ Animated.parallel([
     :
     {
         opacity: 
-        //1, // Binds directly}
+        //1,  // Binds directly}
         this.state.topImagefadeOut,
     }
     
@@ -508,13 +640,13 @@ Animated.parallel([
         <View style={styles.container} >
         
           <Animated.View style={topimageStyle}>
-            <Image source={pic} style={{width: 50, height: 50}} />
+            <Image source={pic2} style={{width: currHeadIconSize, height: currHeadIconSize}} />
           </Animated.View>
           
            
           <Animated.View style={topimageStyle}>
             <Text style={headerstyle}  >
-            {header}
+            {header2}
             </Text>
           </Animated.View>
          
@@ -529,25 +661,30 @@ Animated.parallel([
             }}
            >
             <Text style={bodystyle}>
-             {bodytext}
+             {bodytext2}
             </Text>
           </Animated.View>
          
           
           
-          <Animated.View                                   //  Special animatable View
+          <Animated.View                                    //  Special animatable View
               style={{
                 //opacity: this.state.topImagefadeOut,
                 right: this.state.bottomAuthorXPosition,           // Bind opacity to animated value
                 
               }}
            >
-            <Text style={styles.welcome3}>
-             {author}
+            <Text style={currBottomStyle}>
+             {currbottomText}
             </Text>
  		   </Animated.View>
+          
+          <Animated.View style={topimageStyle}>
+            <Image source={letsSeePic} style={{width: letsCIconSize, height: letsCIconSize, opacity: currLetsSeeIconOpacity}} />
+          </Animated.View>          
+          
          
-           <Animated.View                            // Special animatable View
+          <Animated.View                            // Special animatable View
               style={{
                 //opacity: this.state.topImagefadeOut,
                 right: this.state.bottomAuthorXPosition,           // Bind opacity to animated value
@@ -620,6 +757,13 @@ const styles = StyleSheet.create({
     margin: 5,
 	color: '#D3D3D3',
      //fontWeight: 'bold'
+  },
+  welcome5: {
+    fontSize: 12,
+    textAlign: 'center',
+    margin: 5,
+	color: '#000000',
+    fontWeight: 'bold'
   },
   
   instructions: {
