@@ -1,3 +1,24 @@
+03/05/2017:
+
+Experimenting on the react-native navigation function, which is the official way of navigating between different pages, especially useful when transitioning between menu and the story.
+
+The react-native navigation function doesn't seem to compile on web simulator, but compiles on mobile phone.
+
+The navigation is being experimented in "experiment.js", and future experiments will likely go to it too.
+
+It seems that under certain circumstances alignItems:'left' doesn't work, don't know why though.
+
+Can use Dimensions.get('window').width or height to dynamiclly scale UI elements.
+
+borderRadius can give an UI element rounded corner.
+
+Hopefully what i can finish this week: 
+
+1. some interesting animation that gives the hardbound-ish feel
+4. make the quiz pages, and the sort of animation that happens between a normal page and the quiz page 
+2. make the app more complete: menu, home page button etc.
+3. if possible find some way that the user can interact with some animation elements
+
 01/05/2017:
 
 Can store image urls as a state, and get the corresponding image based on pageNum when pageNum is updated. 

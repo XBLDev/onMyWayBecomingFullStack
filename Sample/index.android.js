@@ -10,6 +10,7 @@ import {
   Animated,
   Easing,
   LayoutAnimation,
+  ListView,
 } from 'react-native';
 
 
@@ -155,6 +156,17 @@ export default class aSample extends Component {
     this.topImagefadeOutAnim = new Animated.Value(0);
 // 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
       
+    
+    this.tmp_array = [
+     { headline: "HL1", text: "NEWS1", send_at: "test date" },
+     { headline: "HL2", text: "NEWS2", send_at: "test date" },     
+    ];
+    
+    this.storyTitles = [
+     { imgURL: "HL1", title: "story telling" },
+     { imgURL: "HL2", title: "physics" },     
+    ];
+    
     this.bodyText = {
      '0':'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story',
      '1':'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?',
@@ -202,6 +214,8 @@ export default class aSample extends Component {
      
      //this.props._value = 0;
     this.props.pageNumber = 0;
+    this.totalPageNum = 3;
+    
     this.state = {
       
      stored: {
@@ -219,7 +233,7 @@ export default class aSample extends Component {
       topImagefadeOut: new Animated.Value(0),           // Initial value for opacity: 0     
       
       letsSeeIconFade: new Animated.Value(0),
-      
+      onStartMenu: new Animated.Value(0),
       firstPage: true, 
       pageNum: 0,
       alpha :  new Animated.Value(0), 
@@ -237,7 +251,8 @@ export default class aSample extends Component {
     this.cycleAnimation = this.cycleAnimation.bind(this);
     //this.state.topImagefadeOut.addListener(({value}) => this.state.imageFadeOutProgress = value);
     //this.state.topImagefadeOut.addListener(({value}) => this.props._value = value);
-
+    this.WholeNews = this.WholeNews.bind(this); 
+    this.GetStartMenuItems = this.GetStartMenuItems.bind(this); 
   }
   
   changePageNum()
@@ -247,7 +262,31 @@ export default class aSample extends Component {
     
   }
   
-  
+  WholeNews() {
+  return tmp_array.map(function(news, i){
+    return(
+      <View key={i}>
+        <Text>{news.headline}</Text>
+        <View>
+          <Text>{news.text}</Text>
+        </View>
+      </View>
+    );
+  });
+ }
+  //story.imgURL
+  GetStartMenuItems() {
+  return storyTitles.map(function(story, i){
+    return(
+      <View key={i}>
+        <Image source={story.imgURL}/>
+        <View>
+          <Text>{story.title}</Text>
+        </View>
+      </View>
+    );
+  });
+ }
   
   _onPressed() {
     //this.cycleAnimation();
@@ -432,7 +471,14 @@ Animated.parallel([
       }                              
     ),  
   
-     
+    Animated.timing(
+      this.state.letsSeeIconFade, 
+      {
+        toValue: 1,
+        duration: 1000,
+        delay: 3500,
+      }
+    ),     
   
   
 ]),
@@ -606,21 +652,12 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
     let timeAndActivity = this.state.pageNum == 0 ? '3min, 2 activities' : '';
      //let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
+    let paragraph2Text = '';
     
     let topimageStyle = this.state.pageNum == 0?
     {
         opacity:   
-		//1,
-        //spin,
         this.state.topImagefadeOut,
-
-      //this.state.topImagefadeOut.interpolate
-      // ({
-      //  inputRange: [0, 1],
-      //  outputRange: [1, 0]
-      //  }),
-      
-
     }
     :
     {
@@ -629,14 +666,24 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
         this.state.topImagefadeOut,
     }
     
-    
-    
+    let letsSeeIconStyle = 
+    {
+        opacity:   
+        this.state.letsSeeIconFade,
+      
+
+    };
     
     return (
-     
+
+       <Image
+        source={pic2}
+        style={BackGroundImagestyles.container}>
+
       <TouchableWithoutFeedback onPress={this._onPressed} style={styles.container}>
         
-        
+
+      
         <View style={styles.container} >
         
           <Animated.View style={topimageStyle}>
@@ -665,9 +712,23 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
             </Text>
           </Animated.View>
          
+
+          <Animated.View                             
+            style=
+            {{
+                opacity: this.state.bodyFade,
+
+                top: this.state.bodyTextYPosition, 
+            }}
+           >
+            <Text style={bodystyle}>
+             {paragraph2Text}
+            </Text>
+          </Animated.View>
           
           
-          <Animated.View                                    //  Special animatable View
+          
+          <Animated.View                                     //  Special animatable View
               style={{
                 //opacity: this.state.topImagefadeOut,
                 right: this.state.bottomAuthorXPosition,           // Bind opacity to animated value
@@ -679,8 +740,8 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
             </Text>
  		   </Animated.View>
           
-          <Animated.View style={topimageStyle}>
-            <Image source={letsSeePic} style={{width: letsCIconSize, height: letsCIconSize, opacity: currLetsSeeIconOpacity}} />
+          <Animated.View style={letsSeeIconStyle}>
+            <Image source={letsSeePic} style={{width: letsCIconSize, height: letsCIconSize,}} />
           </Animated.View>          
           
          
@@ -696,6 +757,8 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
             </Text>
            </Animated.View>
           
+           
+          
           
           
           
@@ -705,12 +768,37 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
          
 
         
-        
+   
         
         
         
       </TouchableWithoutFeedback>
       
+      </Image>  
+    
+    );
+  }
+}
+
+
+
+class MyMenu extends Component {
+  
+  constructor() {
+    super();
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(['story 1', 'story 2']),
+      
+    };
+  }
+
+  render() {
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={(rowData) => <Text>{rowData}</Text>}
+      />
     );
   }
 }
@@ -786,6 +874,18 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   
+});
+
+const BackGroundImagestyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    backgroundColor:'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover',
+  },
 });
 
 AppRegistry.registerComponent('aSample', () => aSample);
