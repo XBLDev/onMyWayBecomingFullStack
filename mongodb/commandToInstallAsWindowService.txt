@@ -1,0 +1,11 @@
+mongod --bind_ip   152.83.70.24  --logpath  "C:\data\dbConf\mongodb.log"  --logappend  --dbpath  "C:\data\db"  --port 20127 --serviceName "XilongDB" --serviceDisplayName "XLDB1" --install
+
+
+
+mongod --bind_ip   127.0.0.1 --logpath  "C:\Users\cao01g\Desktop\t\mongodb\data\dbConf\mongodb.log"  --logappend  --dbpath  "C:\Users\cao01g\Desktop\t\mongodb\data\db"  --port 27017 --serviceName "XilongDB" --serviceDisplayName "XLDB1" --install
+
+
+1. open 2 administrative CMD, both cd to bin folder
+2. in one of them, type: mongod --dbpath "C:\Users\cao01g\Desktop\t\mongodb\data"
+3. in the other one, type: mongod --bind_ip   127.0.0.1 --logpath  "C:\Users\cao01g\Desktop\t\mongodb\data\dbConf\mongodb.log"  --logappend  --dbpath  "C:\Users\cao01g\Desktop\t\mongodb\data\db"  --port 27017 --serviceName "XilongDB" --serviceDisplayName "XLDB1" --install
+4. and type: mongo

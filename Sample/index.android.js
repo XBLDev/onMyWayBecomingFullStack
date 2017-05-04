@@ -11,6 +11,8 @@ import {
   Easing,
   LayoutAnimation,
   ListView,
+  Dimensions,
+  Number,
 } from 'react-native';
 
 
@@ -171,42 +173,63 @@ export default class aSample extends Component {
      '0':'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story',
      '1':'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?',
      '2':'Imagine that theres a business onwer Michael, '+'\n'+'who makes hats for cats, donating part of his money to animal rescues, '+'\n'+'\n'+'WHATS A BETTER STARTING POINT FOR MACHAELS STORY?', 
+     //'3':'MONEY MONEY MORE MONEY'+'\n'+'I DO THIS FOR THE CATS',
     }
     
     this.TitleText = {
      '0':'CONTENT',
      '1':'WE WIIL ANSWER:',
-     '2':'', 
+     '2':'',
+     //'3':'WHICH ONE IS BETTER?',
     }
     
     this.bottomText = {
      '0':'Ryan Holiday, Author and Strategist',
      '1':'',
      '2':'Lets see', 
+     //'3':'', 
     }
 
     this.bottomStyle = {
      '0':styles.welcome3,
      '1':styles.welcome3,
      '2':styles.welcome5, 
+     //'3':styles.welcome5, 
     }    
         
     this.letsSeeIcon = {
      '0':'',
      '1':'',
-     '2':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
+     '2':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'},
+     //'3':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
+
     }
     
     this.letsSeeIconSize = {
      '0':0,
      '1':0,
      '2':30, 
+     //'3':0, 
     }
     
-    this.headIconSize = {
+    this.headIconSizeX = {
+     '0':50,
+     '1':50,
+     '2':Dimensions.get('window').width, 
+     //'3':Dimensions.get('window').width, 
+    }
+    this.headIconSizeY = {
      '0':50,
      '1':50,
      '2':100, 
+     //'3':100, 
+    }
+    
+    this.backGroundColor = {
+     '0':'#FFFFFF',
+     '1':'#FFFFFF',
+     '2':'#FFFFFF', 
+     '3':'#transparent'
     }
     //this.bttomAuthorXPosition = 0;
       //this.state.stored['ok']
@@ -214,17 +237,23 @@ export default class aSample extends Component {
      
      //this.props._value = 0;
     this.props.pageNumber = 0;
-    this.totalPageNum = 3;
+    this.totalPageNum = 6;
+    
+    
+    //this.topIconWidth = new Animated.Value(50);
+    this.topIconHeight = new Animated.Value(50);
     
     this.state = {
       
      stored: {
      '0':{uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'},
      '1':{uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'},
-     '2':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'}
+     '2':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'},
+     '3':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'}
      }, 
      //https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png
       
+      topIconWidth : new Animated.Value(50),
       bottomAuthorXPosition: new Animated.Value(1200),
      bodyTextYPosition: new Animated.Value(150),
      bodyFade: new Animated.Value(0),
@@ -509,7 +538,7 @@ Animated.parallel([
       }                              
     ),      
 
-    Animated.timing(                                // Animate over time
+    Animated.timing(                                 // Animate over time
       this.state.bodyTextYPosition,                      // The animated value to drive
       {
         duration: 1000,
@@ -579,7 +608,7 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
       this.state.bodyFade,                      // The animated value to drive
       {
         duration: 500,
-        toValue: 0,                                   //Animate to opacity: 1, or fully opaque
+        toValue: 0,                                    //Animate to opacity: 1, or fully opaque
       }
     ),      
       ])
@@ -595,6 +624,63 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
     );                                     //     Starts the animatio     
 }
 
+if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
+    Animated.sequence([
+    Animated.parallel([
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 1200,
+        //easing: Easing.bounce,
+        duration: 500,
+    
+      }                              
+    ),      
+      
+    Animated.timing(                                // Animate over time
+      this.state.bodyFade,                        // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                   //Animate to opacity: 1, or fully opaque
+      }
+    ), 
+    Animated.timing(
+      this.state.letsSeeIconFade, 
+      {
+        toValue: 0,
+        duration: 1000,
+        //delay: 3500,
+      }
+    ),       
+    Animated.timing(                                // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                  //Animate to opacity: 1, or fully opaque
+      }
+    ),   
+      
+    //Animated.spring(position, {
+    //  toValue: {x: 0, y: 0}    // return to start
+   // }),
+      ])
+      ])
+      .start
+    (
+      
+      event => {
+    if (event.finished) {
+      this.setState({ pageNum: this.state.pageNum + 1 });//, this.cycleAnimation()
+    }
+  }
+
+    );                                     //     Starts the animatio     
+}    
+    
+    
+    
+    
 }
   
   
@@ -614,7 +700,7 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
   render() {
 
     
-  //  const numbers = [{
+   //  const numbers = [{
   //    uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
   //  }, {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'}, 3, 4, 5];
     
@@ -624,9 +710,7 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
   //  outputRange: ['0', '1', '2']
   //})
     //this.state.stored['ok']
-	let pic = this.state.pageNum == 0? {
-      uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'
-    }: {uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'};
+
     
     let pic2 = this.state.stored[this.state.pageNum.toString()];
 	  
@@ -637,20 +721,23 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
     //letsSeeIconSize
     let letsCIconSize = this.letsSeeIconSize[this.state.pageNum.toString()];
     let headerstyle = this.state.pageNum == 0 ? styles.welcome2:styles.welcome4;
-    let header = this.state.pageNum == 0 ? 'CONTENT' : 'WE WILL ANSWER:';
     let header2 = this.TitleText[this.state.pageNum.toString()];
     //headIconSize
-    let currHeadIconSize = this.headIconSize[this.state.pageNum.toString()];
-    let bodytext = this.state.pageNum == 0 ? 'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story' : 'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?';
+    let currHeadIconSizeX = this.headIconSizeX[this.state.pageNum.toString()];
+    let currHeadIconSizeY = this.headIconSizeY[this.state.pageNum.toString()];
+
     let bodytext2 = this.bodyText[this.state.pageNum.toString()];
     
     let author = this.state.pageNum == 0 ? 'Ryan Holiday, Author and Strategist' : '';
     let currbottomText = this.bottomText[this.state.pageNum.toString()];
     let currBottomStyle = this.bottomStyle[this.state.pageNum.toString()];
+    let currBackGroundColor = this.backGroundColor[this.state.pageNum.toString()];
+    //let currTopIconWidth = this.topIconWidth;
+    
     let currLetsSeeIconOpacity = this.state.letsSeeIconFade;
     //bottomStyle
     let timeAndActivity = this.state.pageNum == 0 ? '3min, 2 activities' : '';
-     //let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
+      //let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
     let paragraph2Text = '';
     
@@ -658,6 +745,7 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
     {
         opacity:   
         this.state.topImagefadeOut,
+        //width: this.state.topIconWidth
     }
     :
     {
@@ -673,21 +761,48 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
       
 
     };
+    //https://ak5.picdn.net/shutterstock/videos/880294/thumb/1.jpg
+    //{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}
+       // flex: 1,
+    // justifyContent: 'center',//<-----justifyContent: how are children distributed?Available options are flex-start, center, flex-end, space-around, and space-between.
+     // alignItems: 'center',
+    
+    
+  //      width: Dimensions.get('window').width, //undefined Dimensions.get('window').width,
+  //  height: Dimensions.get('window').height,//undefined Dimensions.get('window').height,
+ //   backgroundColor:'#transparent',
+ //   justifyContent: 'center',
+ //   alignItems: 'center',
+  //   resizeMode: 'cover',
+   //  top: 0,
+    
+    
     
     return (
 
        <Image
-        source={pic2}
-        style={BackGroundImagestyles.container}>
+        source={{uri: 'https://ak5.picdn.net/shutterstock/videos/880294/thumb/1.jpg'}}
+        style={
+        {
+         width: Dimensions.get('window').width, 
+         height: Dimensions.get('window').height, 
+         backgroundColor:'#transparent',
+         justifyContent: 'center',
+         alignItems: 'center',
+         resizeMode: 'cover',
+         top: 0,
+        }
+        }>
 
-      <TouchableWithoutFeedback onPress={this._onPressed} style={styles.container}>
+      <TouchableWithoutFeedback onPress={this._onPressed}  >
         
 
       
-        <View style={styles.container} >
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: currBackGroundColor,}} >
         
-          <Animated.View style={topimageStyle}>
-            <Image source={pic2} style={{width: currHeadIconSize, height: currHeadIconSize}} />
+          
+          <Animated.View style={{opacity: this.state.topImagefadeOut}}>
+            <Image source={pic2} style={{width: currHeadIconSizeX, height: currHeadIconSizeY}} />
           </Animated.View>
           
            
@@ -816,7 +931,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',//<-----justifyContent: how are children distributed?Available options are flex-start, center, flex-end, space-around, and space-between.
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#FFFFFF',
 	//flexDirection: 'row'
 	
   },
@@ -878,13 +993,15 @@ const styles = StyleSheet.create({
 
 const BackGroundImagestyles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: undefined,
-    height: undefined,
-    backgroundColor:'transparent',
+    //flex: 1,
+    width: Dimensions.get('window').width, //undefined Dimensions.get('window').width,
+    height: Dimensions.get('window').height,//undefined Dimensions.get('window').height,
+    backgroundColor:'#transparent',
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'cover',
+    top: 0,
+    //right: 0,
   },
 });
 

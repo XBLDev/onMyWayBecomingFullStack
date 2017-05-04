@@ -1,0 +1,15 @@
+2017-05-04T12:11:41.656+1000 I CONTROL  [main] Trying to install Windows service 'XilongDB'
+2017-05-04T12:11:41.807+1000 I CONTROL  [main] Service 'XilongDB' (XLDB1) installed with command line '"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" --bind_ip 152.83.70.24 --logpath C:\Users\cao01g\Desktop\t\mongodb\data\dbConf\mongodb.log --logappend --dbpath C:\Users\cao01g\Desktop\t\mongodb\data\db --port 20127 --service'
+2017-05-04T12:11:41.807+1000 I CONTROL  [main] Service can be started from the command line with 'net start XilongDB'
+2017-05-04T12:15:29.831+1000 I CONTROL  [main] ***** SERVER RESTARTED *****
+2017-05-04T12:15:30.225+1000 I CONTROL  [main] Trying to install Windows service 'XilongDB'
+2017-05-04T12:15:30.226+1000 I CONTROL  [main] There is already a service named 'XilongDB', sleeping and retrying
+2017-05-04T12:16:17.070+1000 I CONTROL  [main] ***** SERVER RESTARTED *****
+2017-05-04T12:16:17.445+1000 I CONTROL  [main] Trying to install Windows service 'XilongDB'
+2017-05-04T12:16:17.446+1000 I CONTROL  [main] There is already a service named 'XilongDB', sleeping and retrying
+2017-05-04T12:17:01.712+1000 I CONTROL  [main] ***** SERVER RESTARTED *****
+2017-05-04T12:17:02.116+1000 I CONTROL  [main] Trying to install Windows service 'XilongDB'
+2017-05-04T12:17:02.116+1000 I CONTROL  [main] There is already a service named 'XilongDB', sleeping and retrying
+2017-05-04T12:22:42.570+1000 I CONTROL  [main] ***** SERVER RESTARTED *****
+2017-05-04T12:22:42.970+1000 I CONTROL  [main] Trying to install Windows service 'XilongDB'
+2017-05-04T12:22:42.970+1000 I CONTROL  [main] There is already a service named 'XilongDB', sleeping and retrying
