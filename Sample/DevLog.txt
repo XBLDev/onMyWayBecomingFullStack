@@ -1,3 +1,11 @@
+05/05/2017:
+
+It looks like the only way i can get the transparent background color from a array is: 'rgba(0,0,0,0)', not '#transparent' which works when put directly in the style in the view. That's just strange.
+
+For Animated.View, it can only use this.state.value to do animation, this.value doesn't work, even if the this.value is also an Animated.value()
+
+Defining width/borderRadius on an Animated.View element doesn't work. 
+
 03/05/2017:
 
 Experimenting on the react-native navigation function, which is the official way of navigating between different pages, especially useful when transitioning between menu and the story.

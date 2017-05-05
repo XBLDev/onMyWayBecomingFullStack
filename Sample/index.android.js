@@ -173,35 +173,52 @@ export default class aSample extends Component {
      '0':'Get Customers'+"\n"+'Interested by Telling'+"\n"+'a Great Story',
      '1':'How can I use my own experience to help my business?'+'\n'+'Whats the personal approach to story telling?'+'\n'+' whats the higher purpose approach?',
      '2':'Imagine that theres a business onwer Michael, '+'\n'+'who makes hats for cats, donating part of his money to animal rescues, '+'\n'+'\n'+'WHATS A BETTER STARTING POINT FOR MACHAELS STORY?', 
-     //'3':'MONEY MONEY MORE MONEY'+'\n'+'I DO THIS FOR THE CATS',
+     '3':'',// MONEY MORE MONEY'+'\n'+'I DO THIS FOR THE CATS
+     '4':'Thats right, It shares what inspires Michael to do beyond money, instead of just talking about money',
     }
     
     this.TitleText = {
      '0':'CONTENT',
      '1':'WE WIIL ANSWER:',
      '2':'',
-     //'3':'WHICH ONE IS BETTER?',
+     '3':'WHICH ONE IS BETTER?',
+     '4':'RESULT', 
     }
+    
+    this.quizChoice1Text = {
+     '0':'',
+     '1':'',
+     '2':'',
+     '3':'Cats for hats sells fashion accessories for cats online. Our hats come in 6 styles',
+    }
+    
+    this.quizChoice2Text = {
+     '0':'',
+     '1':'',
+     '2':'',
+     '3':'I started cats for hats to help local shelters. Each hat sold saves life of a cat',
+    }
+    
     
     this.bottomText = {
      '0':'Ryan Holiday, Author and Strategist',
      '1':'',
      '2':'Lets see', 
-     //'3':'', 
+     '3':'', 
     }
 
     this.bottomStyle = {
      '0':styles.welcome3,
      '1':styles.welcome3,
      '2':styles.welcome5, 
-     //'3':styles.welcome5, 
+     '3':styles.welcome5, 
     }    
         
     this.letsSeeIcon = {
      '0':'',
      '1':'',
      '2':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'},
-     //'3':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
+     '3':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
 
     }
     
@@ -209,28 +226,43 @@ export default class aSample extends Component {
      '0':0,
      '1':0,
      '2':30, 
-     //'3':0, 
+     '3':0, 
     }
     
     this.headIconSizeX = {
      '0':50,
      '1':50,
      '2':Dimensions.get('window').width, 
-     //'3':Dimensions.get('window').width, 
+     '3':0, 
     }
     this.headIconSizeY = {
      '0':50,
      '1':50,
      '2':100, 
-     //'3':100, 
+     '3':0, 
     }
     
     this.backGroundColor = {
      '0':'#FFFFFF',
      '1':'#FFFFFF',
      '2':'#FFFFFF', 
-     '3':'#transparent'
+     '3':'rgba(0,0,0,0)',
     }
+    
+    this.letsSeeIconScale = {
+     '0':0,
+     '1':0,
+     '2':0, 
+     '3':1,
+    }
+
+    this.choicesMargin = {
+     '0':0,
+     '1':0,
+     '2':0, 
+     '3':5,
+    }
+    //this._onPressed
     //this.bttomAuthorXPosition = 0;
       //this.state.stored['ok']
       //styles.welcome3
@@ -242,6 +274,8 @@ export default class aSample extends Component {
     
     //this.topIconWidth = new Animated.Value(50);
     this.topIconHeight = new Animated.Value(50);
+    this.springValue = new Animated.Value(0.1);
+    this.backgroudTop = new Animated.Value(0);
     
     this.state = {
       
@@ -267,7 +301,12 @@ export default class aSample extends Component {
       pageNum: 0,
       alpha :  new Animated.Value(0), 
       AuthorfadeAnim: new Animated.Value(0),          // Initial value for opacity: 0
-      imageFadeOutProgress : 1,
+      //imageFadeOutProgress : 1,
+      backgroundTop : new Animated.Value(0),
+      choiceOneScale: new Animated.Value(0),
+      choiceTwoScale: new Animated.Value(0),
+      //choicesMargin: new Animated.Value(0),
+      
     };
     
         //({value}) => this._value = value
@@ -282,6 +321,16 @@ export default class aSample extends Component {
     //this.state.topImagefadeOut.addListener(({value}) => this.props._value = value);
     this.WholeNews = this.WholeNews.bind(this); 
     this.GetStartMenuItems = this.GetStartMenuItems.bind(this); 
+    
+    
+    this.topLevelOnPressed = {
+     '0':this._onPressed,
+     '1':this._onPressed,
+     '2':this._onPressed, 
+     '3':'',
+     '4':this._onPressed,
+    }
+    
   }
   
   changePageNum()
@@ -504,20 +553,101 @@ Animated.parallel([
       this.state.letsSeeIconFade, 
       {
         toValue: 1,
-        duration: 1000,
+        duration: 100,
         delay: 3500,
       }
     ),     
   
   
 ]),
+    
+       Animated.spring(
+    this.springValue,
+      {
+        //duration: 50,
+        toValue: 1,
+        friction: 1,
+      }
+    ),  
+    
   ]).start(event => {
     if (event.finished) {
     }
   });  
 }
   
+else if(this.state.pageNum.toString()=='3')//FROM PAGE3 TO PAGE4
+{
+  //this.state.bottomAuthorXPosition
+  Animated.sequence([
+    
+    Animated.timing(
+      this.state.backgroundTop, {
+      toValue: 0,
+      duration: 1000,
+      //delay: 1000
+    }),
+    
+    
+Animated.parallel([
+    Animated.timing(
+      this.state.topImagefadeOut, {
+      toValue: 1,
+      duration: 2000,
+      //delay: 1000
+    }),
+    
+    Animated.timing(
+      this.state.bodyFade, {
+      toValue: 1,
+      duration: 2000,
+      delay: 500
+    }),
 
+    Animated.timing(                                 // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 2000,
+        toValue: 0,                                  // Animate to opacity: 1, or fully opaque
+        delay: 500,
+      }
+    ),      
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 0,
+        //easing: Easing.bounce,
+        duration: 1000,
+        delay: 2500,
+      }                              
+    ),  
+  
+
+  
+  
+]),
+    
+    Animated.timing(
+      this.state.choiceOneScale, {
+      toValue: 1,
+      duration: 1000,
+      //delay: 1000
+    }),    
+    
+    Animated.timing(
+      this.state.choiceTwoScale, {
+      toValue: 1,
+      duration: 1000,
+      //delay: 1000
+    }),    
+    
+    
+  ]).start(event => {
+    if (event.finished) {
+    }
+  });  
+}
   
 }
   
@@ -575,6 +705,8 @@ Animated.parallel([
     );                                     //     Starts the animatio   
  }
 if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
+    
+    Animated.sequence([
     Animated.parallel([
     
     Animated.timing(
@@ -611,6 +743,12 @@ if(this.state.pageNum.toString()=='1'){//FROM PAGE2 TO PAGE3, PAGE2 ANIMATION
         toValue: 0,                                    //Animate to opacity: 1, or fully opaque
       }
     ),      
+      
+      
+      ]),
+      
+       
+      
       ])
       .start
     (
@@ -664,7 +802,17 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
     //Animated.spring(position, {
     //  toValue: {x: 0, y: 0}    // return to start
    // }),
-      ])
+      ]),
+    Animated.timing(                                // Animate over time
+      this.state.backgroundTop,                      // The animated value to drive
+      {
+        //duration: 500,
+        toValue: 1000,                                  //Animate to opacity: 1, or fully opaque
+      }
+    ),         
+      
+      
+      
       ])
       .start
     (
@@ -730,6 +878,11 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
     
     let author = this.state.pageNum == 0 ? 'Ryan Holiday, Author and Strategist' : '';
     let currbottomText = this.bottomText[this.state.pageNum.toString()];
+    
+    let currChoice1Text = this.quizChoice1Text[this.state.pageNum.toString()];
+    let currChoice2Text = this.quizChoice2Text[this.state.pageNum.toString()];
+
+    
     let currBottomStyle = this.bottomStyle[this.state.pageNum.toString()];
     let currBackGroundColor = this.backGroundColor[this.state.pageNum.toString()];
     //let currTopIconWidth = this.topIconWidth;
@@ -740,7 +893,9 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
       //let opaqueValue = this.state.pageNum == 0 ? 1 : 0;
     let currentAnimationView = this.state.firstPage? FadeInView : PositionMoveView;
     let paragraph2Text = '';
-    
+    //topLevelOnPressed
+    let currTopLevelOnPressed = this.topLevelOnPressed[this.state.pageNum.toString()];
+
     let topimageStyle = this.state.pageNum == 0?
     {
         opacity:   
@@ -772,7 +927,7 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
   //  height: Dimensions.get('window').height,//undefined Dimensions.get('window').height,
  //   backgroundColor:'#transparent',
  //   justifyContent: 'center',
- //   alignItems: 'center',
+  //   alignItems: 'center',
   //   resizeMode: 'cover',
    //  top: 0,
     
@@ -780,21 +935,26 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
     
     return (
 
+      
+      <Animated.View style={{flex:1, top: this.state.backgroundTop,}}>
+        
        <Image
         source={{uri: 'https://ak5.picdn.net/shutterstock/videos/880294/thumb/1.jpg'}}
         style={
         {
-         width: Dimensions.get('window').width, 
-         height: Dimensions.get('window').height, 
-         backgroundColor:'#transparent',
-         justifyContent: 'center',
+         flex: 1,
+         width: null, 
+         height: null, 
+         //backgroundColor:'#transparent',
+         //justifyContent: 'center',
          alignItems: 'center',
          resizeMode: 'cover',
          top: 0,
+          alignSelf: 'stretch',
         }
         }>
 
-      <TouchableWithoutFeedback onPress={this._onPressed}  >
+      <TouchableWithoutFeedback onPress={currTopLevelOnPressed}  >
         
 
       
@@ -827,19 +987,51 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
             </Text>
           </Animated.View>
          
-
+          <View>
+          <TouchableHighlight onPress={currTopLevelOnPressed}>
           <Animated.View                             
             style=
             {{
+                marginBottom: this.choicesMargin[this.state.pageNum.toString()],
+                marginTop: 0,	
+                backgroundColor:'#ffffff',
+                width: Dimensions.get('window').width - 10,
+                borderRadius: 5,
                 opacity: this.state.bodyFade,
-
-                top: this.state.bodyTextYPosition, 
+                transform: [{scale: this.state.choiceOneScale}],
+                //top: this.state.bodyTextYPosition, 
             }}
            >
             <Text style={bodystyle}>
-             {paragraph2Text}
+             {currChoice1Text}
             </Text>
           </Animated.View>
+          </TouchableHighlight>
+          </View>
+          
+          <View>
+          <TouchableHighlight onPress={currTopLevelOnPressed}>
+          <Animated.View                             
+            style=
+            {{
+                marginBottom: this.choicesMargin[this.state.pageNum.toString()],
+                marginTop: 0,
+                backgroundColor:'#ffffff',
+                width: Dimensions.get('window').width - 10,
+                borderRadius: 5,
+                opacity: this.state.bodyFade,
+                transform: [{scale: this.state.choiceTwoScale}],
+                //top: this.state.bodyTextYPosition, 
+            }}
+           >
+            <Text style={bodystyle}>
+             {currChoice2Text}
+            </Text>
+          </Animated.View>
+          </TouchableHighlight>
+          </View>
+          
+          
           
           
           
@@ -855,8 +1047,17 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
             </Text>
  		   </Animated.View>
           
-          <Animated.View style={letsSeeIconStyle}>
-            <Image source={letsSeePic} style={{width: letsCIconSize, height: letsCIconSize,}} />
+          <Animated.View style={{ opacity: this.state.letsSeeIconFade, transform: [{scale: this.springValue}], }}>
+            <Image source={letsSeePic} 
+             style={
+              { 
+                width: letsCIconSize, 
+                height: letsCIconSize, 
+                //transform: [{scale: this.springValue}], 
+                //opacity: this.state.letsSeeIconFade, 
+              }
+              } 
+             />
           </Animated.View>          
           
          
@@ -890,6 +1091,8 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
       </TouchableWithoutFeedback>
       
       </Image>  
+        
+        </Animated.View>
     
     );
   }
