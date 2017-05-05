@@ -190,6 +190,8 @@ export default class aSample extends Component {
      '1':'',
      '2':'',
      '3':'Cats for hats sells fashion accessories for cats online. Our hats come in 6 styles',
+     '4':'', 
+      
     }
     
     this.quizChoice2Text = {
@@ -197,6 +199,8 @@ export default class aSample extends Component {
      '1':'',
      '2':'',
      '3':'I started cats for hats to help local shelters. Each hat sold saves life of a cat',
+     '4':'', 
+     
     }
     
     
@@ -205,13 +209,16 @@ export default class aSample extends Component {
      '1':'',
      '2':'Lets see', 
      '3':'', 
+     '4':'Tap and Go back to page 1',
+     
     }
 
     this.bottomStyle = {
      '0':styles.welcome3,
      '1':styles.welcome3,
      '2':styles.welcome5, 
-     '3':styles.welcome5, 
+     '3':styles.welcome5,
+     '4':styles.welcome3, 
     }    
         
     this.letsSeeIcon = {
@@ -219,6 +226,7 @@ export default class aSample extends Component {
      '1':'',
      '2':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'},
      '3':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
+     '4':{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png'}, 
 
     }
     
@@ -227,6 +235,7 @@ export default class aSample extends Component {
      '1':0,
      '2':30, 
      '3':0, 
+     '4':0,  
     }
     
     this.headIconSizeX = {
@@ -234,12 +243,14 @@ export default class aSample extends Component {
      '1':50,
      '2':Dimensions.get('window').width, 
      '3':0, 
+     '4':0, 
     }
     this.headIconSizeY = {
      '0':50,
      '1':50,
      '2':100, 
      '3':0, 
+     '4':0, 
     }
     
     this.backGroundColor = {
@@ -247,6 +258,7 @@ export default class aSample extends Component {
      '1':'#FFFFFF',
      '2':'#FFFFFF', 
      '3':'rgba(0,0,0,0)',
+     '4':'rgba(0,0,0,0)', 
     }
     
     this.letsSeeIconScale = {
@@ -254,6 +266,7 @@ export default class aSample extends Component {
      '1':0,
      '2':0, 
      '3':1,
+     '4':0, 
     }
 
     this.choicesMargin = {
@@ -261,6 +274,7 @@ export default class aSample extends Component {
      '1':0,
      '2':0, 
      '3':5,
+     '4':5, 
     }
     //this._onPressed
     //this.bttomAuthorXPosition = 0;
@@ -283,7 +297,8 @@ export default class aSample extends Component {
      '0':{uri: 'https://d30y9cdsu7xlg0.cloudfront.net/png/1033-200.png'},
      '1':{uri: 'https://icons.iconarchive.com/icons/rokey/smooth/128/apple-icon.png'},
      '2':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'},
-     '3':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'}
+     '3':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'},
+     '4':{uri: 'http://bcdn.sadanduseless.com/wp-content/uploads/2014/04/cat-hat1.jpg'}, 
      }, 
      //https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Arrow_icon.svg/1024px-Arrow_icon.svg.png
       
@@ -300,7 +315,7 @@ export default class aSample extends Component {
       firstPage: true, 
       pageNum: 0,
       alpha :  new Animated.Value(0), 
-      AuthorfadeAnim: new Animated.Value(0),          // Initial value for opacity: 0
+      AuthorfadeAnim: new Animated.Value(0),           // Initial value for opacity: 0
       //imageFadeOutProgress : 1,
       backgroundTop : new Animated.Value(0),
       choiceOneScale: new Animated.Value(0),
@@ -330,6 +345,16 @@ export default class aSample extends Component {
      '3':'',
      '4':this._onPressed,
     }
+    
+    this.secondChoiceOnPressed ={
+     '0':'',
+     '1':'',
+     '2':'', 
+     '3':this._onPressed,
+     '4':'',      
+      
+    }
+    
     
   }
   
@@ -649,6 +674,62 @@ Animated.parallel([
   });  
 }
   
+else if(this.state.pageNum.toString()=='4')//FROM PAGE4 TO PAGE5
+{
+   //this.state.bottomAuthorXPosition
+  Animated.sequence([
+    
+    
+Animated.parallel([
+    Animated.timing(
+      this.state.topImagefadeOut, {
+      toValue: 1,
+      duration: 2000,
+      //delay: 1000
+    }),
+    
+    Animated.timing(
+      this.state.bodyFade, {
+      toValue: 1,
+      duration: 2000,
+      delay: 500
+    }),
+
+    Animated.timing(                                 // Animate over time
+      this.state.bodyTextYPosition,                      // The animated value to drive
+      {
+        duration: 2000,
+        toValue: 0,                                  // Animate to opacity: 1, or fully opaque
+        delay: 500,
+      }
+    ),      
+    
+    Animated.timing(
+      this.state.bottomAuthorXPosition,
+      {
+        toValue: 0,
+        //easing: Easing.bounce,
+        duration: 1000,
+        delay: 2500,
+      }                              
+    ),  
+  
+
+  
+  
+]),
+    
+    
+    
+  ]).start(event => {
+    if (event.finished) {
+    }
+  });  
+}  
+  
+  
+  
+  
 }
   
   
@@ -826,6 +907,81 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
     );                                     //     Starts the animatio     
 }    
     
+ if(this.state.pageNum.toString()=='3'){//FROM PAGE4 TO PAGE5, PAGE4 ANIMATION
+    Animated.sequence([
+    Animated.parallel([
+    
+      
+    Animated.timing(                                // Animate over time
+      this.state.bodyFade,                        // The animated value to drive
+      {
+        duration: 500,
+        toValue: 0,                                    //Animate to opacity: 1, or fully opaque
+      }
+    ), 
+      
+    Animated.spring(
+      this.state.choiceOneScale, {
+      toValue: 0,
+      duration: 1000,
+      //delay: 1000
+    }),    
+    Animated.spring(
+      this.state.choiceTwoScale, {
+      toValue: 0,
+      duration: 1000,
+      //delay: 1000
+    }),
+    Animated.timing(                                // Animate over time
+      this.state.topImagefadeOut,                      // The animated value to drive
+      {
+        duration: 1000,
+        toValue: 0,                                   //Animate to opacity: 1, or fully opaque
+      }
+    ),
+      
+    //Animated.spring(position, {
+    //  toValue: {x: 0, y: 0}    // return to start
+   // }),
+      ]),
+       
+      
+      
+      
+      ])
+      .start
+    (
+      
+      event => {
+    if (event.finished) {
+      this.setState({ pageNum: this.state.pageNum + 1 });//, this.cycleAnimation()
+    }
+  }
+
+    );                                     //     Starts the animatio     
+}       
+    
+ if(this.state.pageNum.toString()=='4'){//FROM PAGE5 BACK TO PAGE1, PAGE5 ANIMATION
+    Animated.timing(
+    this.springValue,
+      {
+        //duration: 50,
+        toValue: 0,
+        //friction: 1,
+      }
+    ).start(
+      event => {
+    if (event.finished) {
+      this.setState({ pageNum: 0 });//, this.cycleAnimation()
+      }
+    }    
+    
+    ),   
+   
+   
+   this.setState({ pageNum: 0 });//, this.cycleAnimation()
+   
+ }
     
     
     
@@ -988,7 +1144,7 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
           </Animated.View>
          
           <View>
-          <TouchableHighlight onPress={currTopLevelOnPressed}>
+          <TouchableWithoutFeedback onPress={this.secondChoiceOnPressed[this.state.pageNum.toString()]}>
           <Animated.View                             
             style=
             {{
@@ -1006,11 +1162,12 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
              {currChoice1Text}
             </Text>
           </Animated.View>
-          </TouchableHighlight>
+          </TouchableWithoutFeedback>
           </View>
           
+          
           <View>
-          <TouchableHighlight onPress={currTopLevelOnPressed}>
+          <TouchableWithoutFeedback onPress={this.secondChoiceOnPressed[this.state.pageNum.toString()]}>
           <Animated.View                             
             style=
             {{
@@ -1028,7 +1185,7 @@ if(this.state.pageNum.toString()=='2'){//FROM PAGE3 TO PAGE4, PAGE3 ANIMATION
              {currChoice2Text}
             </Text>
           </Animated.View>
-          </TouchableHighlight>
+          </TouchableWithoutFeedback>
           </View>
           
           
