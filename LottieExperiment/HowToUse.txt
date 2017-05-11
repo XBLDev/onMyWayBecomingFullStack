@@ -1,0 +1,45 @@
+Steps: 
+
+1. Download/install After Effects
+
+2. Install bodymovin plugin for AE: https://github.com/bodymovin/bodymovin, may have to restart AE to use it.
+
+3. Make some animation/composition
+
+4. In AE, go to "windows" -> "Extension" -> "Bodymovin"
+
+5. Specify a destination path for the generated JSON file, and generate it, name it "EddyAppAnimation.json"
+
+6. Copy paste the generated file to: ROOT_PATH_OF_REACT_NATIVE_FOLDER/node_modules/animations
+
+7. Re-arrange the file into the following format: 
+{
+"assets":[...],
+"layers":[...],
+"v":"4.4.26",
+"ddd":0,
+"ip":0,
+"op":180,
+"fr":30,
+"w":400,
+"h":300
+}
+
+Not sure how much the format/order of elements affects the app, but this order works for other examples from LottieNative github: 
+https://github.com/airbnb/lottie-react-native
+
+8. Make sure "op" is integer: in the generated JSON file it's something like "30.000000000009", and somehow that stops the app from working
+
+9. Not sure if other long floating numbers should be changed to intergers, op seems to be the only one causing trouble so far.
+
+10. Copy the code from "LottieExperiment.js" to "index.android.js" (won't work on web simulator since it can't install plugins)
+
+
+
+I followed the first tutorial on this page:
+
+https://helpx.adobe.com/premiere-pro/how-to/logo-animation.html?playlist=/ccx/v1/collection/product/after-effects/segment/designer/explevel/beginner/applaunch/orientation/collection.ccx.js
+
+I changed XORZO to EddyApp, can't see the text, everything else is good.
+
+The Lottie plugin may not support text.
