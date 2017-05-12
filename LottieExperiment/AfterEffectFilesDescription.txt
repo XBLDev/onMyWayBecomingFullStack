@@ -1,0 +1,3 @@
+hLetterAnimation.aep: letter animation from: https://www.youtube.com/watch?v=o_cT2TwtG_Y&list=WL&index=77
+EddyAppAnimationOriginal: box sliding across screen, "Eddy App" on top of it, not moving
+EddyAppAnimation: pink background fade in/out, letters of "Eddy App" pop up one by one
