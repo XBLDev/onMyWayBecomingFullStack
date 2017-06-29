@@ -1,0 +1,15 @@
+Commands used to deploy this app:
+
+1. SET DEPLOY_HOSTNAME=galaxy.meteor.com
+2. meteor deploy ReactJSMeteorTestXBLDev.meteorapp.com --settings settings.json
+
+
+Default "settings.json":
+
+{
+  "galaxy.meteor.com": {
+     "env": {
+       //"MONGO_URL": "mongodb://xbldev:maggie_11@ds143191.mlab.com:43191/xbldevdb"
+     }
+   }
+}
