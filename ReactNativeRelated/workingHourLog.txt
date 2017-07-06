@@ -1,0 +1,1 @@
+06/07/2017: 5 hours, built the basic React Native video merging app, tried to fix video saving issues/
