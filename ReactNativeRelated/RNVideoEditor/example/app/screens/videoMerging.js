@@ -19,14 +19,8 @@ import {
 import RNVideoEditor from 'react-native-video-editor';
 import Camera from 'react-native-camera';
 import Video from 'react-native-video';
-import App from './app';
-import IndexPage from './app/index';
 
-
-
-// export default class videoEditingExample extends Component {
-class videoEditingExample extends Component {
-
+class videoMerging extends Component {
   constructor(props) {
     super(props);
 
@@ -49,15 +43,15 @@ class videoEditingExample extends Component {
         this.state.videoUrls,
         function errorCallback(results) {
           // alert('Error: ' + results);
-          // Alert.alert(
-          //   'Merge Video',
-          //   'Failed!',
-          //   [
-          //     // {text: 'Ask me later'},
-          //     {text: 'Error: ' + results},
-          //   ],
-          //   { cancelable: true }
-          // )              
+          Alert.alert(
+            'Merge Video',
+            'Failed!',
+            [
+              // {text: 'Ask me later'},
+              {text: 'Error: ' + results},
+            ],
+            { cancelable: true }
+          )              
         },
         (results, file) => {
           // alert('Success : ' + results + " " + file);
@@ -191,9 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('RNVideoEditExample', () => IndexPage);
-
-// AppRegistry.registerComponent('RNVideoEditExample', () => App);
-// AppRegistry.registerComponent('RNVideoEditExample', () => videoEditingExample);
-
-// AppRegistry.registerComponent('RNVideoEditExample', () => BadInstagramCloneApp);
+export default videoMerging;

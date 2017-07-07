@@ -1,0 +1,31 @@
+07/07/2017:
+
+Made a component that can let user choose multiple videos on the phone, and merge them, basically a 
+combination of the code from these 2 github repositories:
+
+https://github.com/MostWantIT/react-native-video-editor
+https://github.com/ivpusic/react-native-image-crop-picker
+
+Plus a lot of UI changes to make it usable, but the UI still needs a lot of improvements, which I 
+attempted to do in a seperate component. The idea is that once select the videos, only display a list 
+of the videos, and once the user click on one of the list item, it shows a drop down window that plays 
+the video, and it disappears if the user clicks on the same item again. It's doable, and should make 
+the UI much better.
+
+06/07/2017:
+
+Delivered the app that can merge 2 videos together, the code is from: 
+https://github.com/MostWantIT/react-native-video-editor
+But it needs to change the package version numbers, and possibly a bunch of other things so 
+that it can add other packages or be added to another app as a component. And slight UI changes.
+
+Problems with the app is that: 
+1. the UI is very inconvinient to use, after merging 2 videos, the user can not go back to 
+taking videos again. 
+2. It says the merged video is saved, but actually in the original code in the package there's a bug, 
+or rather file path format error, that stops the merged video from being saved. The solution is that 
+in the original react-native-video-editor, I used the path that can be used to save the video taken 
+by the user, and the merged video can be saved. But, this seems to be only working on my mobile phone: 
+Samsung Galaxy, on Lenovo Tango, on which i also tested the app, the merging can be done but the videos, 
+included the sub-videos, are not saved anywhere, at least i can't find them.
+
