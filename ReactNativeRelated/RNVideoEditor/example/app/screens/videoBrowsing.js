@@ -161,6 +161,16 @@ export default class videoBrowsing extends Component {
           console.log('received image', i);
           this.setState({videoUrls: [...this.state.videoUrls, i.path]});
 
+          // Alert.alert(
+          //   'Video mime',
+          //   i.mime,
+          //   [
+          //     // {text: 'Ask me later'},
+          //     {text: 'OK '},
+          //   ],
+          //   { cancelable: true }
+          // )            
+
           return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
         })
       });
@@ -274,7 +284,7 @@ export default class videoBrowsing extends Component {
           // alert('Success : ' + results + " " + file);
           Alert.alert(
             'Merge Video',
-            'Succeess!',
+            'Succeess!'+file,
             [
               // {text: 'Ask me later'},
               {text: 'OK'},
@@ -389,10 +399,10 @@ export default class videoBrowsing extends Component {
       <TouchableOpacity onPress={this.pickMultiple.bind(this)} style={styles.button}>
         <Text style={styles.text}>Select Videos to merge</Text>
       </TouchableOpacity>
-      {/*<TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
+      <TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup All Images</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={this.cleanupSingleImage.bind(this)} style={styles.button}>
+      {/*<TouchableOpacity onPress={this.cleanupSingleImage.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup Single Image</Text>
       </TouchableOpacity>*/}
     </View>);

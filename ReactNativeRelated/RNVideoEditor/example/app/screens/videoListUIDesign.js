@@ -46,15 +46,23 @@ export default class videoListUIDesign extends Component {
       image: null,
       images: null,
       videoUrls: [],
+      videoUrlIndex: [],
       hasMergedVideo: false,
       showingMergedVideo: false,
       MergedVideoFilePath: '',
+      showVideoInList: [],
+      numberOfSelectedVideos: 0,
+      selectedVideoToShow: '',
     };
 
     this.mergeVideos = this.mergeVideos.bind(this);
     this.flipShowingMergedVideo = this.flipShowingMergedVideo.bind(this);
     // this.onPressVideoItem = this.onPressVideoItem.bind(this);
   }
+
+  componentWillMount(){
+      this.cleanupImages();
+  }  
 
   pickSingleWithCamera(cropping) {
     ImagePicker.openCamera({
@@ -157,6 +165,10 @@ export default class videoListUIDesign extends Component {
         images: images.map(i => {
           console.log('received image', i);
           this.setState({videoUrls: [...this.state.videoUrls, i.path]});
+          this.setState({showVideoInList: [...this.state.showVideoInList, false]});
+
+          this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos + 1});
+          this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});
 
           return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
         })
@@ -322,18 +334,77 @@ export default class videoListUIDesign extends Component {
 //   }
 
    onPressVideoItem = (video) => {
-    Alert.alert(
-        'Pressed on video item',
-        'Pressed '+video.uri +"!",
-        [
-            // {text: 'Ask me later'},
-            {text: 'OK'},
-        ],
-        { cancelable: true }
-    );
+    // Alert.alert(
+    //     'Pressed on video item',
+    //     'Pressed '+video.uri +"!",
+    //     [
+    //         // {text: 'Ask me later'},
+    //         {text: 'OK'},
+    //     ],
+    //     { cancelable: true }
+    // );
+    if(this.state.selectedVideoToShow == '')
+    {
+      this.setState({selectedVideoToShow: video.uri});
+    }
+    else
+    {
+      if(video.uri == this.state.selectedVideoToShow)
+      {
+        this.setState({selectedVideoToShow: ''});
+      }
+      else
+      {
+        this.setState({selectedVideoToShow: video.uri});
+       
+      }      
+    }
+
+  };
+
+   onPressVideoItem2 = (videoURL) => {
+    // Alert.alert(
+    //     'Pressed on video item',
+    //     'Pressed '+video.uri +"!",
+    //     [
+    //         // {text: 'Ask me later'},
+    //         {text: 'OK'},
+    //     ],
+    //     { cancelable: true }
+    // );
+    if(this.state.selectedVideoToShow == '')
+    {
+      this.setState({selectedVideoToShow: videoURL});
+    }
+    else
+    {
+      if(videoURL == this.state.selectedVideoToShow)
+      {
+        this.setState({selectedVideoToShow: ''});
+      }
+      else
+      {
+        this.setState({selectedVideoToShow: videoURL});
+       
+      }      
+    }
+
+  };
+
+
+   onPressMoveUp = (currentVideoIndex) => {
+      currentVideoUrl = this.state.videoUrls[currentVideoIndex-1];
+      previousVideoUrl = this.state.videoUrls[currentVideoIndex-2];
+      // this.setState({videoUrls: videoURL});
+     
+
+  };
+
+   onPressMoveDown = (currentVideoIndex) => {
 
 
   };
+
 
   render() {
 
@@ -343,7 +414,110 @@ export default class videoListUIDesign extends Component {
       
         {/*{this.state.image ? this.renderAsset(this.state.image) : null}*/}
         {/*{this.state.images ? this.state.images.map(i => <View key={i.uri}><Text>{i.uri}</Text>{this.renderAsset(i)}</View>) : null}*/}
-        {this.state.images ? 
+
+
+        {this.state.videoUrlIndex.length != 0 ? 
+        <ScrollView style={{width: 300}}>
+            <List>
+                {this.state.videoUrlIndex.map((i) => (
+                    <View key={this.state.videoUrls[i-1]}>
+                        <TouchableOpacity onPress={() => this.onPressVideoItem2(this.state.videoUrls[i-1])}>
+                            <ListItem
+                            
+                            title={this.state.videoUrls[i-1]}
+                            subtitle={this.state.videoUrls[i-1]}
+                            rightIcon={{ name: 'cached' }}
+                            
+                            />                                            
+                        </TouchableOpacity>
+                          
+                        {this.state.selectedVideoToShow == this.state.videoUrls[i-1]?
+                        <View style={{width: 300}}>
+                            <View style={{width: 300, height:50}}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveUp(i)}>
+                                    <Text style={styles.text}>Move this video Up</Text>
+                                </TouchableOpacity>                              
+                            </View>
+                            <View style={{width: 300, height:50}}>
+                                <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveDown(i)}>
+                                    <Text style={styles.text}>Move this video down</Text>
+                                </TouchableOpacity>                              
+                            </View> 
+                            <View style={{height: 300, width: 300}}>
+                                <Video source={{uri: this.state.videoUrls[i-1]}}
+                                    style={{position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0
+                                    }}
+                                    rate={1}
+                                    paused={false}
+                                    volume={1}
+                                    muted={false}
+                                    resizeMode={'cover'}
+                                    onError={e => console.log(e)}
+                                    onLoad={load => console.log(load)}
+                                    repeat={true} />
+                            </View>
+                        </View>:null}                       
+                    </View>
+                ))}
+            </List>
+        </ScrollView>: null}
+
+
+        {/*{this.state.videoUrls.length != 0 ? 
+        <ScrollView style={{width: 300}}>
+            <List>
+                {this.state.videoUrls.map((i) => (
+                    <View key={i}>
+                        <TouchableOpacity onPress={() => this.onPressVideoItem2(i)}>
+                            <ListItem
+                            
+                            title={i}
+                            subtitle={i}
+                            rightIcon={{ name: 'cached' }}
+                            
+                            />                                            
+                        </TouchableOpacity>
+                          
+                        {this.state.selectedVideoToShow == i?
+                        <View style={{width: 300}}>
+                            <View style={{width: 300, height:50}}>
+                                <TouchableOpacity style={styles.button}>
+                                    <Text style={styles.text}>Move this video Up</Text>
+                                </TouchableOpacity>                              
+                            </View>
+                            <View style={{width: 300, height:50}}>
+                                <TouchableOpacity style={styles.button}>
+                                    <Text style={styles.text}>Move this video down</Text>
+                                </TouchableOpacity>                              
+                            </View> 
+                            <View style={{height: 300, width: 300}}>
+                                <Video source={{uri: i}}
+                                    style={{position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0
+                                    }}
+                                    rate={1}
+                                    paused={false}
+                                    volume={1}
+                                    muted={false}
+                                    resizeMode={'cover'}
+                                    onError={e => console.log(e)}
+                                    onLoad={load => console.log(load)}
+                                    repeat={true} />
+                            </View>
+                        </View>:null}                       
+                    </View>
+                ))}
+            </List>
+        </ScrollView>: null}*/}
+
+        {/*{this.state.images ? 
         <ScrollView style={{width: 300}}>
             <List>
                 {this.state.images.map((i) => (
@@ -354,7 +528,7 @@ export default class videoListUIDesign extends Component {
                         subtitle={i.uri}
                         onPress={() => this.onPressVideoItem(i)}                    
                         />
-                        <View style={{height: 300, width: 300}}>
+                        {this.state.selectedVideoToShow == i.uri? <View style={{height: 300, width: 300}}>
                             <Video source={{uri: i.uri}}
                                 style={{position: 'absolute',
                                     top: 0,
@@ -370,11 +544,11 @@ export default class videoListUIDesign extends Component {
                                 onError={e => console.log(e)}
                                 onLoad={load => console.log(load)}
                                 repeat={true} />
-                         </View>                       
+                        </View>:null}                       
                     </View>
                 ))}
             </List>
-        </ScrollView>: null}
+        </ScrollView>: null}*/}
 
       {/*<ScrollView>
         {this.state.videoUrls.length > 0 ? this.state.videoUrls.map(i => <View key={i}><Text>{i}</Text></View>) : null}
@@ -452,10 +626,10 @@ export default class videoListUIDesign extends Component {
       <TouchableOpacity onPress={this.pickMultiple.bind(this)} style={styles.button}>
         <Text style={styles.text}>Select Videos to merge</Text>
       </TouchableOpacity>
-      {/*<TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
+      <TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup All Images</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={this.cleanupSingleImage.bind(this)} style={styles.button}>
+      {/*<TouchableOpacity onPress={this.cleanupSingleImage.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup Single Image</Text>
       </TouchableOpacity>*/}
     </View>);

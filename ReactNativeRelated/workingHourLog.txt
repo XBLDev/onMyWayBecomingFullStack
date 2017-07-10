@@ -1,2 +1,9 @@
-06/07/2017: 5 hours, built the basic React Native video merging app, tried to fix video saving issues/
-06/06/2017: 8 hours, built a component that enables users to select videos on the phone and merge them together; attempted to design a better UI for it so it's easier to use.
+06/07/2017: 
+5 hours, built the basic React Native video merging app, tried to fix video saving issues
+
+07/07/2017: 
+8 hours, built a component that enables users to select videos on the phone and merge them together; attempted to design a better UI for it so it's easier to use.
+
+10/07/2017: 
+10 hours, 8:30am - 7:00pm, minus the necessary breaks for lunch/dinner. 
+Finished merging the first pair of real experimental videos, explored possibilities to make merged video smoother, implemented drop down UI for video list

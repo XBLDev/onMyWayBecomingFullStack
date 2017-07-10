@@ -1,3 +1,63 @@
+10/07/2017:
+
+Up until 2:40, been trying to merge the 2 videos supplied by Jeremy, one taken by DJI, one taken by iphone, 
+both videos are of MOV format.
+
+There are several problems related to file format:
+1. On my samsung Galaxy, it simply won't play/show any MOV format videos, when you copy/past the videos,
+it will ask you to convert it to WMV format, which will enable the app and the mobile phone to play the 
+video, but since the merger app only accepts MP4 videos as input, they have to be converted to MP4.
+2. Once converted to MP4, for the DJI video: it can read by the merger app but cannot be played, and it 
+can not be played by Samsung Galaxy; for the iphone video: it can be played by the mobile phone, but 
+can not be read/played by the merger app.
+
+The solution takes the following steps:
+1. Converted both videos with online video converter: https://www.onlinevideoconverter.com/cloud-converter
+2. Download handbrake from: https://handbrake.fr/
+3. Change the framerate of both videos to 30 using handbrake, generated new files
+4. Put the new files to Samsung Galaxy
+5. Open the merger app, now the 2 videos can be merged into one.
+
+Some technical concerns:
+1. Not really sure if the above way is the only way, and even if there are other ways to do it, it's still 
+not good enough since we need to use external tools to convert both videos first.
+2. Not sure if the same approach will work on iphone, or any other android devices.
+3. The way the merger app decides which video comes first in the merged video now, is that it chooses the 
+video that's last modified: if the drone video was taken after the user took the video, when the 2 videos 
+are merged, the drone video will come first and the user video will come last, which in our case is wrong.
+There should be some way to change the order of the videos though.
+4. 30 framerate is just a random number chose by me, maybe some other framerate is better choice than 30.
+5. It takes quite a time to generate the output video, not too long but long enough if the user wants the use 
+that generated video to do something else right after it's merged.
+6. The VLC media player, which people use to play videos, has its progress bar stuck at 4s, but the video 
+keeps going. Other video players, including the one on mobile phone and the one used by Dropbox, seem to be
+working properly.
+7. The video player used by facebook messenger seems to be stuck too at 3/4s
+
+Just fired Lenovo Tango phone up, and the videos which I thought were not there the other day appeared. It seems 
+that on Tango it might take longer to generate the videos, but eventually they will be there.
+
+The merging works on Tango.
+
+It looks like there's no need for me to convert the videos using the website: I just downloaded the videos from 
+dropbox, changed the framerates of both videos to 30 using handbrake, and they can merge. So as long as we 
+can find a way to change the framerate of the videos without using any external tool it's good to go.
+
+The experiment of "better video line up by trimming the drone video" didn't go well: it still looks odd when transitioning 
+from the first video to the second video. Video trimming component might be needed in the future, if users think 
+it's a good idea to cut part of some videos so the final result looks better.
+
+Made a better UI for video preview: now after the users select the videos, they will see a list of video names/URLS
+instead of a list of every video being played. And they can see the corresponding video by clicking on one of the 
+list items. This way the UI looks much more elegant and it's easier to use, plus we can add more button options for different 
+operations such as changing the order of the videos, remove one of the videos etc, without having to look at too many videos 
+at the same time.
+
+Tried to implement video order changing by moving a certain video up/down in the list, ran out of time to do that, may 
+finish it tomorrow. In the future could design some drag and drop functions if it's doable.
+
+####################################################################################################################################################################################
+
 07/07/2017:
 
 Made a component that can let user choose multiple videos on the phone, and merge them, basically a 
@@ -13,6 +73,8 @@ the video, and it disappears if the user clicks on the same item again. It's doa
 the UI much better.
 
 06/07/2017:
+
+####################################################################################################################################################################################
 
 Delivered the app that can merge 2 videos together, the code is from: 
 https://github.com/MostWantIT/react-native-video-editor
