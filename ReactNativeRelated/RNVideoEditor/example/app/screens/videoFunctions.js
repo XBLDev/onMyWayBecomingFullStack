@@ -8,9 +8,7 @@ class videoFunctions extends Component {
     this.props.navigation.navigate('videoBrowsing');
   };
 
-  handleVideoProcessingPress = () => {
-    this.props.navigation.navigate('videoProcessing');
-  };
+
 
   handleVideoMergingPress = () => {
     this.props.navigation.navigate('videoMerging');
@@ -18,6 +16,10 @@ class videoFunctions extends Component {
 
   handleVideoUIDesignPress = () => {
     this.props.navigation.navigate('videoUIDesign');
+  };  
+
+  handleVideoProcessingPress = () => {
+    this.props.navigation.navigate('videoProcess');
   };  
 
    render() {
@@ -41,6 +43,11 @@ class videoFunctions extends Component {
           <ListItem
             title="Video List UI design"
             onPress={() => this.handleVideoUIDesignPress()}
+          />          
+
+          <ListItem
+            title="Video Processing"
+            onPress={() => this.handleVideoProcessingPress()}
           />          
 
         </List>

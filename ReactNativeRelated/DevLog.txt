@@ -1,3 +1,42 @@
+11/07/2017:
+
+Since no new video for further video merging investigation, today's focus was: 
+1. Making UI components that enable users to add/remove videos, and change order of videos which will affect
+in what order the videos are merged.
+2. After selecting the videos, in the generated video list, organize each list item as following: on the left 
+of the list item, is a mini video playing as sort of a thumbnail for video, and when that item is clicked, a 
+bigger drop down video appears underneath the list item, along with 3 buttons: "up", "down", and "remove". The 
+first 2 will increase/decrease the order of the selected video accordingly, and "remove" will ask you if you are 
+sure about deleting the video from list upon clicking on it, and will delete it if you click on yes.
+3. Investigate video trimming, which could be important in the future.
+4. Giving the list items some border so it's easier to tell 2 videos apart.
+
+Problems for the points above:
+1. There are times when I first choose some videos, and then try to add some other videos, it gives me an aynsc 
+error. Not really sure about the cause, seems to be linked to videoPicker cleaning.
+2. The 3 buttons need better UI design so they look professional, possibly with icons, which I failed to use today 
+with list items.
+3. The video trimming has some serious issues: when I trim the videos taken by my mobile phone, it works fine; however,
+when I trim the drone video supplied by Jeremy, the following are the results:
+            //start time -> end time:  result video length
+            //1 -> 5: 9 seconds
+            //1 -> 6: 9 seconds
+            //1 -> 7: 9 seconds
+            //1 -> 8: 9 seconds
+            //1 -> 9: 9 seconds
+            //1 -> 10: 19 seconds
+            //1 -> 11: 19 seconds
+            //1 -> 12, with video shot by mobile phone: 12 seconds
+            //1 -> 13, with video shot by mobile phone: 13 seconds
+The concolusion is, when trimming the drone video, it seems that the start time and end time simply don't matter, there's 
+a pattern for sure, but not good enough such that i can derive some sort of mathematical solution from it so solve this problem.
+4. I think for the border, it's better to give the selected video a green one, and the video before/after it some other color, 
+but since the way the scrollview list items are generated, that seems to be impossible to do. It can be achieved by writing 
+lots of redundant code, but that's not a good way to do it. And between videos there should be white space to seperate them.
+
+            
+####################################################################################################################################################################################
+
 10/07/2017:
 
 Up until 2:40, been trying to merge the 2 videos supplied by Jeremy, one taken by DJI, one taken by iphone, 

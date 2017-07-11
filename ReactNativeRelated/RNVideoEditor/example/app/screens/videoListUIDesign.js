@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'blue',
-    marginBottom: 10,    
+    marginBottom: 10,
+    alignItems: 'center'    
   },
 
   button2: {
@@ -35,6 +36,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     textAlign: 'center'
+  },
+  selectedVideoBorder:{
+    // borderRadius:10, 
+    borderWidth:5, 
+    borderColor: '#00FF00'
+  },
+  unSelectedVideoBorder:{
+    borderWidth:5, 
+    borderColor: '#A9A9A9'
   }
 });
 
@@ -43,6 +53,9 @@ export default class videoListUIDesign extends Component {
   constructor() {
     super();
     this.state = {
+      allVideoPlaying: true,
+      allVideoPaused: false,
+      allVideoRate: 1.0,
       image: null,
       images: null,
       videoUrls: [],
@@ -51,6 +64,7 @@ export default class videoListUIDesign extends Component {
       showingMergedVideo: false,
       MergedVideoFilePath: '',
       showVideoInList: [],
+      selectedVideoToShowIndexList: [],
       numberOfSelectedVideos: 0,
       selectedVideoToShow: '',
     };
@@ -58,6 +72,7 @@ export default class videoListUIDesign extends Component {
     this.mergeVideos = this.mergeVideos.bind(this);
     this.flipShowingMergedVideo = this.flipShowingMergedVideo.bind(this);
     // this.onPressVideoItem = this.onPressVideoItem.bind(this);
+
   }
 
   componentWillMount(){
@@ -156,6 +171,8 @@ export default class videoListUIDesign extends Component {
   }
 
   pickMultiple() {
+    // this.cleanupImages();
+
     ImagePicker.openPicker({
       multiple: true,
       waitAnimationEnd: false
@@ -163,17 +180,64 @@ export default class videoListUIDesign extends Component {
       this.setState({
         image: null,
         images: images.map(i => {
-          console.log('received image', i);
+          // console.log('received image', i);
           this.setState({videoUrls: [...this.state.videoUrls, i.path]});
-          this.setState({showVideoInList: [...this.state.showVideoInList, false]});
-
           this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos + 1});
-          this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});
+          this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});          
+          // alreadyExist = false;
+          // if(this.state.videoUrls.length == 0)
+          // {
+          //   this.setState({videoUrls: [...this.state.videoUrls, i.path]});
+            
+          // }
+          // else
+          // {
+            
+          //   for (var i = 0; i < this.state.videoUrls.length; i++) {
+          //       if(this.state.videoUrls[i] == i.path)
+          //       {
+          //         alreadyExist = true;
+          //         break;
+          //       }
+          //   }
+          //   if(alreadyExist == false)
+          //   {
+          //       let videoUrlsCopy = this.state.videoUrls;
+          //       this.setState({videoUrls: []});            
+          //       videoUrlsCopy.push(i.path);
+          //       this.setState({videoUrls: videoUrlsCopy});
+          //   }
+          // }
+          // // this.setState({showVideoInList: [...this.state.showVideoInList, false]});
+          // if(alreadyExist == false)
+          // {
+          //     this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos + 1});
+          // }
+          // if(this.state.videoUrlIndex.length == 0)
+          // {
+          //     this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});
+          // }
+          // else
+          // {
+          //   if(alreadyExist == false)
+          //   {            
+          //     let videoUrlIndexCopy = this.state.videoUrlIndex;
+          //     this.setState({videoUrlIndex: []});                        
+          //     videoUrlIndexCopy.push(this.state.numberOfSelectedVideos);
+          //     this.setState({videoUrlIndex: videoUrlIndexCopy});
+          //   }            
+          // }
 
-          return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
+          // return {uri: i.path, width: i.width, height: i.height, mime: i.mime};
         })
       });
     }).catch(e => alert(e));
+    //  this.cleanupImages();
+    // this.forceUpdate();
+    // this.setState({allVideoPaused: false});
+    // this.setState({allVideoPlaying: true});
+    // this.setState({allVideoRate: 1.0});
+                  
   }
 
   scaledHeight(oldW, oldH, newW) {
@@ -392,18 +456,142 @@ export default class videoListUIDesign extends Component {
   };
 
 
+  onPressVideoItem3 = (videoURLIndex) => {
+      var currentVideoIsSelectedToShow = false;
+      if(this.state.selectedVideoToShowIndexList.length !=0)
+      {
+          for (var i = 0; i < this.state.selectedVideoToShowIndexList.length; i++) {
+              var temp = selectedVideoToShowIndexList[i];
+              if(temp == videoURLIndex)
+              {
+                  currentVideoIsSelectedToShow = true;
+                  break;
+              }
+          }
+      }
+
+
+  };
+
+
    onPressMoveUp = (currentVideoIndex) => {
-      currentVideoUrl = this.state.videoUrls[currentVideoIndex-1];
-      previousVideoUrl = this.state.videoUrls[currentVideoIndex-2];
-      // this.setState({videoUrls: videoURL});
+      if(currentVideoIndex-1 != 0)
+      {
+          currentVideoUrl = this.state.videoUrls[currentVideoIndex-1];
+          previousVideoUrl = this.state.videoUrls[currentVideoIndex-2];
+          // this.setState({videoUrls: videoURL});
+          let videoUrlsCopy = this.state.videoUrls;
+          videoUrlsCopy[currentVideoIndex-2] = currentVideoUrl;
+          videoUrlsCopy[currentVideoIndex-1] = previousVideoUrl;
+          this.setState({videoUrls: videoUrlsCopy});
+      }
+      else
+      {
+          Alert.alert(
+              'Failed moving video up',
+              'Cannot move the first video up!',
+              [
+                  // {text: 'Ask me later'},
+                  {text: 'OK'},
+              ],
+              { cancelable: true }
+          ) 
+      }
+
+  };
+
+  onPressMoveDown = (currentVideoIndex) => {
+      if(currentVideoIndex != this.state.numberOfSelectedVideos)
+      {
+        currentVideoUrl = this.state.videoUrls[currentVideoIndex-1];
+        nextVideoUrl = this.state.videoUrls[currentVideoIndex];
+        let videoUrlsCopy = this.state.videoUrls;
+        videoUrlsCopy[currentVideoIndex-1] = nextVideoUrl;
+        videoUrlsCopy[currentVideoIndex] = currentVideoUrl;    
+        this.setState({videoUrls: videoUrlsCopy});
+      }
+      else
+      {
+          Alert.alert(
+              'Failed moving video down',
+              'Cannot move the last video down!',
+              [
+                  // {text: 'Ask me later'},
+                  {text: 'OK'},
+              ],
+              { cancelable: true }
+          )         
+      }
      
+  }
 
-  };
+  onPressRemove = (currentVideoIndex) => {
+        Alert.alert(
+              'Remove video',
+              'Are you sure you want to remove this video?',
+              [
+                  {text: 'Yes', onPress: () => 
+                    {
+                      // VideoUrlsCopy = this.state.videoUrls;
+                      // VideoUrlsCopy.splice(currentVideoIndex-1, 1);
+                      // videoURLIndexCopy = this.state.videoURLIndex;
+                      // videoURLIndexCopy.splice(videoURLIndexCopy.length-1, 1);
 
-   onPressMoveDown = (currentVideoIndex) => {
+                      // this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos - 1});
+                      // this.setState({videoUrls: VideoUrlsCopy});
+                      // this.setState({videoURLIndex: videoURLIndexCopy});
+                      this.removeVideo(currentVideoIndex);
+                    }
+                  },
+                  {text: 'Cancel'},
+              ],
+              { cancelable: true }
+          )
+     
+  }
 
+  removeVideo(currentVideoIndex) {
 
-  };
+    if(this.state.videoUrls[currentVideoIndex-1] == this.state.selectedVideoToShow)
+    {
+      this.setState({selectedVideoToShow: ''});
+    }
+    
+    var temp = this.state.numberOfSelectedVideos;
+    this.setState({videoUrlIndex: this.state.videoUrlIndex.filter(function(videoIndex) { 
+        return videoIndex !== temp
+    })})
+
+    this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos - 1});
+    temp = this.state.videoUrls;
+    this.setState({videoUrls: this.state.videoUrls.filter(function(video) { 
+        return video !== temp[currentVideoIndex-1] 
+    })})
+
+  }
+
+  renderSelectedVideo(currentVideoIndex)
+  {
+      var currentVideoIsSelectedToShow = false;
+      if(this.state.selectedVideoToShowIndexList.length !=0)
+      {
+          for (var i = 0; i < this.state.selectedVideoToShowIndexList.length; i++) {
+              var temp = selectedVideoToShowIndexList[i];
+              if(temp == currentVideoIndex)
+              {
+                  currentVideoIsSelectedToShow = true;
+                  break;
+              }
+          }
+      }
+
+      return currentVideoIsSelectedToShow;
+  }
+  //  onPressMoveDown = (currentVideoIndex) => {
+  
+
+  // };
+
 
 
   render() {
@@ -415,9 +603,87 @@ export default class videoListUIDesign extends Component {
         {/*{this.state.image ? this.renderAsset(this.state.image) : null}*/}
         {/*{this.state.images ? this.state.images.map(i => <View key={i.uri}><Text>{i.uri}</Text>{this.renderAsset(i)}</View>) : null}*/}
 
-
         {this.state.videoUrlIndex.length != 0 ? 
-        <ScrollView style={{width: 300}}>
+        <ScrollView style={{width: 300, height: 500}}>
+            <List>
+                {this.state.videoUrlIndex.map((i) => (
+
+                    <View key={this.state.videoUrls[i-1]} style={{borderRadius:1, borderWidth:5, borderColor: '#00FF00'}}>
+                        <View style={{flexDirection:'row'}}>
+                            <View style={{width: 200, height: 200}}>
+                                    {/*<Text style={styles.text}>i</Text>*/}
+                                <Video source={{uri: this.state.videoUrls[i-1]}}
+                                    style={{position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0
+                                    }}
+                                    rate={1.0}
+                                    paused={false}
+                                    playInBackground={true}
+                                    volume={1}
+                                    muted={true}
+                                    resizeMode={'cover'}
+                                    onError={e => console.log(e)}
+                                    onLoad={load => console.log(load)}
+                                    repeat={true} />                                    
+                            </View>  
+                            <View style={{width: 100, height: 200}}>
+                                <TouchableOpacity onPress={() => this.onPressVideoItem2(this.state.videoUrls[i-1])}>
+                                    <ListItem
+                                    
+                                    title={this.state.videoUrls[i-1]}
+                                    subtitle={this.state.videoUrls[i-1]}                                                                
+                                    />                                            
+                                </TouchableOpacity>
+                            </View>  
+                        </View>
+                        {this.state.selectedVideoToShow == this.state.videoUrls[i-1]?
+                        <View style={{width: 300}}>
+                            <View style={{flexDirection:'row'}}>
+                                <View style={{width: 100, height:100}}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveUp(i)}>
+                                        <Text style={styles.text}>Move Up</Text>
+                                    </TouchableOpacity>                              
+                                </View>
+                                <View style={{width: 100, height:100}}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveDown(i)}>
+                                        <Text style={styles.text}>Move down</Text>
+                                    </TouchableOpacity>                              
+                                </View>
+                                <View style={{width: 100, height:100}}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressRemove(i)}>
+                                        <Text style={styles.text}>remove</Text>
+                                    </TouchableOpacity>                              
+                                </View>
+                            </View> 
+                            <View style={{height: 300, width: 300}}>
+                                <Video source={{uri: this.state.videoUrls[i-1]}}
+                                    style={{position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        bottom: 0,
+                                        right: 0
+                                    }}
+                                    rate={1}
+                                    paused={false}
+                                    volume={1}
+                                    muted={false}
+                                    resizeMode={'cover'}
+                                    onError={e => console.log(e)}
+                                    onLoad={load => console.log(load)}
+                                    repeat={true} />
+                            </View>
+                        </View>:null}                       
+                    </View>
+                ))}
+            </List>
+        </ScrollView>: null}
+
+
+        {/*{this.state.videoUrlIndex.length != 0 ? 
+        <ScrollView style={{width: 300, height: 500}}>
             <List>
                 {this.state.videoUrlIndex.map((i) => (
                     <View key={this.state.videoUrls[i-1]}>
@@ -426,8 +692,7 @@ export default class videoListUIDesign extends Component {
                             
                             title={this.state.videoUrls[i-1]}
                             subtitle={this.state.videoUrls[i-1]}
-                            rightIcon={{ name: 'cached' }}
-                            
+                                                        
                             />                                            
                         </TouchableOpacity>
                           
@@ -464,7 +729,7 @@ export default class videoListUIDesign extends Component {
                     </View>
                 ))}
             </List>
-        </ScrollView>: null}
+        </ScrollView>: null}*/}
 
 
         {/*{this.state.videoUrls.length != 0 ? 
@@ -624,7 +889,7 @@ export default class videoListUIDesign extends Component {
         <Text style={styles.text}>Select Single With Circular Cropping</Text>
       </TouchableOpacity>*/}
       <TouchableOpacity onPress={this.pickMultiple.bind(this)} style={styles.button}>
-        <Text style={styles.text}>Select Videos to merge</Text>
+        <Text style={styles.text}>Select More Videos to merge</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup All Images</Text>

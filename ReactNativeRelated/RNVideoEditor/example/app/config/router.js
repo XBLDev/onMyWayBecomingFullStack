@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import videoMerging from '../screens/videoMerging';
 import videoBrowsing from '../screens/videoBrowsing';
 import videoListUIDesign from '../screens/videoListUIDesign';
+import videoProcessing from '../screens/videoProcessing';
 
 import videoFunctions from '../screens/videoFunctions';
 
@@ -60,18 +61,20 @@ export const videoFunctionsStack= StackNavigator({
       title: 'VideoBrowsing',
     },
   },    
-  videoMerging: {
-    screen: videoMerging,
-    navigationOptions: {
-      title: 'VideoMerging',
-    },
-  },
   videoUIDesign: {
     screen: videoListUIDesign,
     navigationOptions: {
       title: 'VideoListUIDesign',
     },
-  },    
+  },
+  videoProcess: {
+    screen: videoProcessing,
+    navigationOptions: {
+      title: 'VideoProcessing',
+    },
+  },
+
+
 });
 
 
