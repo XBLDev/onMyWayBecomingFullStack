@@ -1,3 +1,38 @@
+12/07/2017:
+
+Today I mainly worked on designing a more professional looking UI, the 2 references I used for UI design today were:
+
+https://www.winxdvd.com/resource/free-video-merger-software-download.htm,  a free video merger software, which I 
+used to use merge videos yesterday before I downloaded handbrake
+
+https://play.google.com/store/apps/details?id=com.appzcloud.mergevideoeditor, an android app that's used to merge videos.
+
+Some of the basic ideas here:
+1. At the bottom, there are several buttons that enable users to do the operations on the highest level: add new videos 
+to the list, remove all the videos in the list, merge, and probably some new buttons in the future, such as a download 
+button that enables users to download drone videos from some remote server.
+2. When there's no video added, it tells you that you need at least 2 videos to merge into a new one. 
+3. For each list item that represents a selected video, it now contains 2 parts: on the left, a thumbnail of the video  
+with a play button that enable user to play the video; on the top half of the right, it lists some of the video information 
+such as video size, video name etc, and on the bottom half it has 3 buttons: move up, move down, and remove, which moves video 
+up, moves video down, and removes video from the list accordingly.
+
+Problems:
+1. If in the future the number of high level operations increase, on row of button on the bottom may not be enough, and 
+therefore there might be some design issues related to space, possibly making one button that can collapse into a list 
+of buttons is a better idea.
+2. Maybe when there's no video added, a good UX idea is that the "add video" button should flash so the user can notice it 
+much eaiser.
+3. I'm not sure the current setup is the best one, or even a good one, there should be better designs that can use the limited 
+space better.
+4. Can't get the length of the video, it doesn't seem to be contained in the returned video when it's fetched.
+5. The users may not understand what the 3 buttons mean until they try them, not really a big problem though.
+6. The next step will be expanding the UI so underneath the clicked list item, there's a bigger space for playing the video, and 
+the problem is that, there will have to be several buttons related to just playing the video, such as pause, stop etc.
+7. Also, the user may want to trim the video, not sure how to design the UI yet.
+
+####################################################################################################################################################################################
+
 11/07/2017:
 
 Since no new video for further video merging investigation, today's focus was: 

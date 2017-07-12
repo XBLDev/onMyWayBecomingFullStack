@@ -8,14 +8,22 @@ import { List, ListItem } from 'react-native-elements';
 import Video from 'react-native-video';
 import RNVideoEditor from 'react-native-video-editor';
 import Camera from 'react-native-camera';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+
+
+const testIcon = (<Icon name="rocket" size={30} color="#900" />);
+
+var ScreenWidth = Dimensions.get('window').width; 
+var ScreenHeight = Dimensions.get('window').height; 
 var ImagePicker = NativeModules.ImageCropPicker;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    
   },
   button: {
     backgroundColor: 'blue',
@@ -60,6 +68,9 @@ export default class videoListUIDesign extends Component {
       images: null,
       videoUrls: [],
       videoUrlIndex: [],
+      videoWidthList:[],
+      videoHeightList:[],
+      videoDurationList:[],
       hasMergedVideo: false,
       showingMergedVideo: false,
       MergedVideoFilePath: '',
@@ -71,6 +82,7 @@ export default class videoListUIDesign extends Component {
 
     this.mergeVideos = this.mergeVideos.bind(this);
     this.flipShowingMergedVideo = this.flipShowingMergedVideo.bind(this);
+    
     // this.onPressVideoItem = this.onPressVideoItem.bind(this);
 
   }
@@ -183,7 +195,12 @@ export default class videoListUIDesign extends Component {
           // console.log('received image', i);
           this.setState({videoUrls: [...this.state.videoUrls, i.path]});
           this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos + 1});
-          this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});          
+          this.setState({videoUrlIndex: [...this.state.videoUrlIndex, this.state.numberOfSelectedVideos]});
+          this.setState({videoWidthList: [...this.state.videoWidthList, i.width]});
+          this.setState({videoHeightList: [...this.state.videoHeightList, i.height]});
+          this.setState({videoDurationList: [...this.state.videoDurationList, i.length]});
+          
+                    
           // alreadyExist = false;
           // if(this.state.videoUrls.length == 0)
           // {
@@ -587,78 +604,219 @@ export default class videoListUIDesign extends Component {
 
       return currentVideoIsSelectedToShow;
   }
-  //  onPressMoveDown = (currentVideoIndex) => {
-  
 
-  // };
+  onPressRemoveAll = () => {
+        Alert.alert(
+              'Remove all videos',
+              'Are you sure you want to remove all videos in the list?',
+              [
+                  {text: 'Yes', onPress: () => 
+                    {
+                      // VideoUrlsCopy = this.state.videoUrls;
+                      // VideoUrlsCopy.splice(currentVideoIndex-1, 1);
+                      // videoURLIndexCopy = this.state.videoURLIndex;
+                      // videoURLIndexCopy.splice(videoURLIndexCopy.length-1, 1);
 
+                      // this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos - 1});
+                      // this.setState({videoUrls: VideoUrlsCopy});
+                      // this.setState({videoURLIndex: videoURLIndexCopy});
+                      // this.removeVideo(currentVideoIndex);
+                    }
+                  },
+                  {text: 'Cancel'},
+              ],
+              { cancelable: true }
+          )
+     
+  }
+
+  onPressNew = () => {
+        Alert.alert(
+              'Make new list of videos',
+              'Are you sure you want to start a new list? This will remove all the videos in your current list!',
+              [
+                  {text: 'Yes', onPress: () => 
+                    {
+                      // VideoUrlsCopy = this.state.videoUrls;
+                      // VideoUrlsCopy.splice(currentVideoIndex-1, 1);
+                      // videoURLIndexCopy = this.state.videoURLIndex;
+                      // videoURLIndexCopy.splice(videoURLIndexCopy.length-1, 1);
+
+                      // this.setState({numberOfSelectedVideos: this.state.numberOfSelectedVideos - 1});
+                      // this.setState({videoUrls: VideoUrlsCopy});
+                      // this.setState({videoURLIndex: videoURLIndexCopy});
+                      // this.removeVideo(currentVideoIndex);
+                    }
+                  },
+                  {text: 'Cancel'},
+              ],
+              { cancelable: true }
+          )
+     
+  }
 
 
   render() {
 
-    let flipShowingMergedVideoButtonText = this.state.showingMergedVideo == true? 'hideMergedVideo':'showMergedVideo';
-
-    return (<View style={styles.container}>
+    // let flipShowingMergedVideoButtonText = this.state.showingMergedVideo == true? 'hideMergedVideo':'showMergedVideo';
+    let whitespacechar = ' ';
+    return (<View style={{flex: 1, flexDirection:'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black'}}>
       
         {/*{this.state.image ? this.renderAsset(this.state.image) : null}*/}
         {/*{this.state.images ? this.state.images.map(i => <View key={i.uri}><Text>{i.uri}</Text>{this.renderAsset(i)}</View>) : null}*/}
+        
+        <View style={{flex: 0.85,  justifyContent: 'center', alignItems: 'center', width: ScreenWidth}}>
+             {this.state.videoUrlIndex.length != 0 ? 
+                  <ScrollView style={{backgroundColor: this.state.videoUrlIndex.length != 0 ? 'black':'red'}}>
+                        <List style={{backgroundColor:'black'}}>
+                              {this.state.videoUrlIndex.map((i) => (
+                                  <View style={{height: 150, flexDirection:'row', justifyContent: 'center', alignItems: 'center', backgroundColor: '#d3d3d3', marginTop: 3, marginBottom: 3, marginLeft: 5, marginRight: 5}}>
+                                    
+                                        <View style={{width: (ScreenWidth-10)/2, height: 150, backgroundColor: '#d3d3d3',justifyContent: 'center', alignItems: 'center',}}>
+                                              {/*<View style={{flex:1, margin: 2, backgroundColor: 'black'}}>*/}
+                                                    {/*<Image style={{ width: (ScreenWidth-10)/2, height: 150, position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}} source={{uri : this.state.videoUrls[i-1]}} />*/}
+                                                    
+                                                    <Image style={{ width: (ScreenWidth-10)/2, height: 150, justifyContent: 'center', alignItems: 'center'}} source={{uri : this.state.videoUrls[i-1]}}>
+                                                            <TouchableOpacity style={{width: (ScreenWidth-10)/2, height: 150, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.onPressVideoItem2(this.state.videoUrls[i-1])}>
+                                                                <View style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                                                                      <Icon name="play-circle-o" size={60} color="#ffffff" />  
+                                                                </View>      
+                                                            </TouchableOpacity>  
+                                                    </Image>
+                                                    
+                                                    {/*<Text>video thumbnail</Text>*/}
+                                              {/*</View>*/}
 
-        {this.state.videoUrlIndex.length != 0 ? 
-        <ScrollView style={{width: 300, height: 500}}>
+                                        </View>
+                                        <View style={{width: (ScreenWidth-10)/2-2, height: 150, backgroundColor: '#d3d3d3',justifyContent: 'center', alignItems: 'center',marginLeft:1, marginRight:1}}>
+                                              {/*<Text>video info</Text>*/}
+                                               <View style={{width: (ScreenWidth-10)/2-2, height: 150/2, justifyContent: 'center', alignItems: 'center'}}>
+                                                    <View style={{flexDirection:'row', width: (ScreenWidth-10)/2-2, height: 20, justifyContent: 'center', alignItems: 'center'}}>
+                                                          <Icon name="video-camera" size={15} color="#000000" />
+                                                          <Text style={{fontSize: 15, fontWeight: 'bold'}}>{whitespacechar}{this.state.videoUrls[i-1].substring(this.state.videoUrls[i-1].lastIndexOf('/')+1,this.state.videoUrls[i-1].length).substring(0,10)}...</Text>
+                                                    </View>
+                                                    <View style={{flexDirection:'row', width: (ScreenWidth-10)/2-2, height: 20, justifyContent: 'center', alignItems: 'center'}}>
+                                                          <Icon name="arrows-alt" size={15} color="#000000" />
+                                                          <Text style={{fontSize: 15, fontWeight: 'bold'}} allowFontScaling={true}>{whitespacechar}{this.state.videoWidthList[i-1]} * {this.state.videoHeightList[i-1]}</Text>
+                                                    </View>
+                                               </View>
+
+                                               <View style={{width: (ScreenWidth-10)/2-2, height: 150/2, justifyContent: 'center', alignItems: 'center'}}>
+                                                    <View style={{flexDirection:'row', width: (ScreenWidth-10)/2-2, height: 150/2, justifyContent: 'center', alignItems: 'center'}}>
+                                                          
+                                                          <TouchableOpacity style={{width: ((ScreenWidth-10)/2-2)/4, height: 150/2, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.onPressMoveUp(i)}>
+                                                              <Icon name="arrow-circle-up" size={30} color="#000000" />
+                                                          </TouchableOpacity>                                                          
+
+                                                          <TouchableOpacity style={{width: ((ScreenWidth-10)/2-2)/4, height: 150/2, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.onPressMoveDown(i)}>
+                                                              <Icon name="arrow-circle-down" size={30} color="#000000" />
+                                                          </TouchableOpacity>
+
+                                                          <TouchableOpacity style={{width: ((ScreenWidth-10)/2-2)/4, height: 150/2, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.onPressMoveDown(i)}>
+                                                              {/*<Icon name="arrow-circle-down" size={30} color="#000000" />*/}
+                                                          </TouchableOpacity>                                                          
+
+                                                          <TouchableOpacity style={{width: ((ScreenWidth-10)/2-2)/4, height: 150/2, justifyContent: 'center', alignItems: 'center'}} onPress={() => this.onPressRemove(i)}>
+                                                              <Icon name="times-circle" size={30} color="#000000" />
+                                                          </TouchableOpacity>                                                             
+                                                          {/*<Icon name="arrow-circle-down" size={30} color="#000000" />
+                                                          <Icon name="times-circle" size={30} color="#000000" />*/}
+                                                    </View>                                                    
+                                               </View>
+                                               {/*<View style={{flexDirection:'row', width: (ScreenWidth-10)/2-2, height: 20, justifyContent: 'center', alignItems: 'center'}}>
+                                                    <Icon name="clock-o" size={15} color="#ffffff" />
+                                                    <Text style={{fontSize: 15}} allowFontScaling={true}>{this.state.videoDurationList[i-1]}</Text>
+                                               </View>                                                                                                   */}
+                                        </View>
+                                  </View>  
+                              ))}     
+                        </List>      
+                  </ScrollView>  
+                  : 
+                  <View style={{flex:1, justifyContent: 'center', alignItems: 'center', width: ScreenWidth}}>
+
+                        <View style={{justifyContent: 'center', alignItems: 'center', width: ScreenWidth * 0.8}}>
+                              <Icon name="th-list" size={100} color="#ffffff" />
+
+                              <Text style={{fontSize: 20, color: 'white'}}>Add at least 2 videos here to merge into a new video</Text>
+                        </View>
+                  </View>
+             } 
+        </View>
+
+        <View style={{flex: 0.15, flexDirection:'row', backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', 
+                    width: ScreenWidth}}>
+              <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/4}}>
+                    <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
+                        <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>                      
+                              <Text>Add video</Text>
+                              <Icon name="file-video-o" size={20} color="#000" />
+                        </View>                                                
+                    </TouchableOpacity>
+              </View>
+              <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/4}}>
+                    <TouchableOpacity onPress={() => this.onPressRemoveAll()}>
+                        <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+                              <Text>Clear all</Text>
+                              <Icon name="remove" size={20} color="#000" />
+                        </View>                        
+                    </TouchableOpacity>                    
+              </View>
+              <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/4}}>
+                    <TouchableOpacity>
+                        <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+                              <Text>Merge</Text>
+                              <Icon name="plus-circle" size={20} color="#000" />
+                        </View>
+                    </TouchableOpacity>                    
+              </View>
+              <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/4}}>
+                    <TouchableOpacity onPress={() => this.onPressNew()}>
+                        <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+                              <Text>New</Text>
+                              <Icon name="list-ul" size={20} color="#000" />
+                        </View>
+                    </TouchableOpacity>                    
+              </View>                              
+        </View>  
+
+        {/*{this.state.videoUrlIndex.length != 0 ? 
+        <ScrollView style={{flex: 0.9, height: 500, maxHeight: 0.5}}>
             <List>
                 {this.state.videoUrlIndex.map((i) => (
 
                     <View key={this.state.videoUrls[i-1]} style={{borderRadius:1, borderWidth:5, borderColor: '#00FF00'}}>
                         <View style={{flexDirection:'row'}}>
-                            <View style={{width: 200, height: 200}}>
-                                    {/*<Text style={styles.text}>i</Text>*/}
-                                <Video source={{uri: this.state.videoUrls[i-1]}}
-                                    style={{position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        bottom: 0,
-                                        right: 0
-                                    }}
-                                    rate={1.0}
-                                    paused={false}
-                                    playInBackground={true}
-                                    volume={1}
-                                    muted={true}
-                                    resizeMode={'cover'}
-                                    onError={e => console.log(e)}
-                                    onLoad={load => console.log(load)}
-                                    repeat={true} />                                    
+                            <View style={{flex: 0.4, height: 400, maxHeight: 0.5}}>
+                                    <Image style={{ position: 'absolute', height: 400, maxHeight: 0.5, top: 0, left: 0, bottom: 0, right: 0}} source={{uri : this.state.videoUrls[i-1]}} />
                             </View>  
-                            <View style={{width: 100, height: 200}}>
+                            <View style={{flex: 0.6, height: 400, maxHeight: 0.5}}>
                                 <TouchableOpacity onPress={() => this.onPressVideoItem2(this.state.videoUrls[i-1])}>
-                                    <ListItem
-                                    
-                                    title={this.state.videoUrls[i-1]}
-                                    subtitle={this.state.videoUrls[i-1]}                                                                
-                                    />                                            
+                                    <Icon name="play-circle" size={100} color="#000" />
                                 </TouchableOpacity>
                             </View>  
                         </View>
                         {this.state.selectedVideoToShow == this.state.videoUrls[i-1]?
-                        <View style={{width: 300}}>
+                        <View>
                             <View style={{flexDirection:'row'}}>
-                                <View style={{width: 100, height:100}}>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveUp(i)}>
-                                        <Text style={styles.text}>Move Up</Text>
+                                <View style={{flex: 0.3, height:100}}>
+                                    <TouchableOpacity style={{backgroundColor: 'white',margin: 1, alignItems: 'center'}} onPress={() => this.onPressMoveUp(i)}>
+                                        <Icon name="arrow-up" size={100} color="#000" />
+
                                     </TouchableOpacity>                              
                                 </View>
-                                <View style={{width: 100, height:100}}>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressMoveDown(i)}>
-                                        <Text style={styles.text}>Move down</Text>
+                                <View style={{flex: 0.3, height:100}}>
+                                    <TouchableOpacity style={{backgroundColor: 'white',margin: 1, alignItems: 'center'}} onPress={() => this.onPressMoveDown(i)}>
+                                        <Icon name="arrow-down" size={100} color="#000" />                                        
                                     </TouchableOpacity>                              
                                 </View>
-                                <View style={{width: 100, height:100}}>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.onPressRemove(i)}>
-                                        <Text style={styles.text}>remove</Text>
+                                <View style={{flex: 0.3, height:100}}>
+                                    <TouchableOpacity style={{backgroundColor: 'white',margin: 1, alignItems: 'center'}} onPress={() => this.onPressRemove(i)}>
+                                        <Icon name="remove" size={100} color="#000" />                                                                                
                                     </TouchableOpacity>                              
                                 </View>
                             </View> 
-                            <View style={{height: 300, width: 300}}>
+                            <View style={{height: 300}}>
                                 <Video source={{uri: this.state.videoUrls[i-1]}}
                                     style={{position: 'absolute',
                                         top: 0,
@@ -679,7 +837,10 @@ export default class videoListUIDesign extends Component {
                     </View>
                 ))}
             </List>
-        </ScrollView>: null}
+        </ScrollView>: null}*/}
+        
+        {/*// Use width variable in style declaration
+        <TextInput style={{ width: width * .8 }} />*/}
 
 
         {/*{this.state.videoUrlIndex.length != 0 ? 
@@ -888,12 +1049,12 @@ export default class videoListUIDesign extends Component {
       {/*<TouchableOpacity onPress={() => this.pickSingle(true, true)} style={styles.button}>
         <Text style={styles.text}>Select Single With Circular Cropping</Text>
       </TouchableOpacity>*/}
-      <TouchableOpacity onPress={this.pickMultiple.bind(this)} style={styles.button}>
+      {/*<TouchableOpacity onPress={this.pickMultiple.bind(this)} style={styles.button}>
         <Text style={styles.text}>Select More Videos to merge</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={this.cleanupImages.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup All Images</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
       {/*<TouchableOpacity onPress={this.cleanupSingleImage.bind(this)} style={styles.button}>
         <Text style={styles.text}>Cleanup Single Image</Text>
       </TouchableOpacity>*/}

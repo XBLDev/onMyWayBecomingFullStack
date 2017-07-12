@@ -7,6 +7,7 @@ class videoProcessing extends Component {
     constructor() {
         super();
         this.trimVideo = this.trimVideo.bind(this);
+        this.getPreviewImageForSecond = this.getPreviewImageForSecond.bind(this);
     }
     
     trimVideo() {
@@ -108,7 +109,10 @@ class videoProcessing extends Component {
                 <View style={{ height: 50, width: 400}}>
                         <TouchableOpacity style={styles.button} onPress={this.trimVideo}>
                             <Text style={styles.text}>Trim this video</Text>
-                        </TouchableOpacity>      
+                        </TouchableOpacity>
+                        {/*<TouchableOpacity style={styles.button} onPress={this.trimVideo}>
+                            <Text style={styles.text}>Trim this video</Text>
+                        </TouchableOpacity>                                    */}
                 </View>
             </View>
         );

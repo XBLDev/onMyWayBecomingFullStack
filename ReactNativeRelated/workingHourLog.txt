@@ -12,3 +12,7 @@ Finished merging the first pair of real experimental videos, explored possibilit
 10 hours, 8:30am - 7:00pm, minus the necessary breaks for lunch/dinner etc
 Finished making simple UIs that can achieve adding/removing videos and changing video order, attempted better UI design for video list items, investigated video 
 trimming functions.
+
+12/07/2017: 
+10 hours, 8:30am - 8:00pm, minus the necessary breaks for lunch/dinner etc, plus a one hour meeting which is not relevant to this job.
+Made "professional looking" UIs that resemble some of the apps on the market, including bottom menu and video list item that has better button designs.
