@@ -2,73 +2,134 @@ import React from 'react';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import Feed from '../screens/Feed';
-import Settings from '../screens/Settings';
-import UserDetail from '../screens/UserDetail';
-import Me from '../screens/Me';
-import myTasks from '../screens/myTasks';
+
+import videoMerging from '../screens/videoMerging';
+import videoBrowsing from '../screens/videoBrowsing';
+import videoListUIDesign from '../screens/videoListUIDesign';
+import videoProcessing from '../screens/videoProcessing';
+import videoRecording from '../screens/videoRecording';
+import videoPlayerController from '../screens/videoPlayerController';
+
+
+import videoFunctions from '../screens/videoFunctions';
 
 // import Meteor, {createContainer, connectMeteor} from 'react-native-meteor';
 
+// export const videoFunctionsStack= StackNavigator({
+//   videofunctionsMain: {
+//     screen: videoFunctions,
+//     navigationOptions: {
+//       title: 'videoFunc',
+//     },
+//   }, 
+//   videoRecording: {
+//     screen: BadInstagramClone,
+//     navigationOptions: {
+//       title: 'videoRecording',
+//     },
+//   },
 
-export const FeedStack = StackNavigator({
-  Feed: {
-    screen: Feed,
+//   videoMerging: {
+//     screen: videoMerging,
+//     navigationOptions: {
+//       title: 'VideoMerging',
+//     },
+//   },  
+// });
+
+
+export const videoMergeFunctionsStack= StackNavigator({
+
+  videoMergeUI: {
+    screen: videoListUIDesign,
     navigationOptions: {
-      title: 'Feed',
+      // title: 'VideoListUIDesign',
     },
   },
-  Details: {
-    screen: UserDetail,
-    navigationOptions: ({ navigation }) => ({
-      title: `${navigation.state.params.name.first.toUpperCase()} ${navigation.state.params.name.last.toUpperCase()}`,
-    }),
+
+  videoRecording:{
+    screen: videoRecording,
+    navigationOptions: {
+      // title: 'VideoRecording',
+    },
   },
 });
 
+
+export const videoFunctionsStack= StackNavigator({
+  // videofunctionsMain: {
+  //   screen: videoFunctions,
+  //   navigationOptions: {
+  //     title: 'videoFunc',
+  //   },
+  // }, 
+  videofunctionsMain: {
+    screen: videoFunctions,
+    navigationOptions: {
+      // title: 'videoFunc',
+    },
+  }, 
+  videoMerging: {
+    screen: videoMerging,
+    navigationOptions: {
+      title: 'VideoMerging',
+    },
+  },
+  videoBrowsing: {
+    screen: videoBrowsing,
+    navigationOptions: {
+      title: 'VideoBrowsing',
+    },
+  },    
+  // videoUIDesign: {
+  //   screen: videoListUIDesign,
+  //   navigationOptions: {
+  //     title: 'VideoListUIDesign',
+  //   },
+  // },
+  videoUIDesign: {
+    screen:  videoMergeFunctionsStack,
+    navigationOptions: {
+      // title: 'VideoListUIDesign',
+    },
+  },
+
+  videoProcess: {
+    screen: videoProcessing,
+    navigationOptions: {
+      // title: 'VideoProcessing',
+    },
+  },
+
+  videoPlayerController: {
+    screen: videoPlayerController,
+    navigationOptions: {
+      // title: 'VideoProcessing',
+    },
+  }, 
+
+
+});
+
+
+
 export const Tabs = TabNavigator({
-  Feed: {
-    screen: FeedStack,
-    navigationOptions: {
-      tabBarLabel: 'Feed',
-      tabBarIcon: ({ tintColor }) => <Icon name="list" size={10} color={tintColor} />,
-    },
-  },
-  mytasks: {
-    screen: myTasks,
-    navigationOptions: {
-      title: 'My Tasks',
 
-      tabBarLabel: 'Tasks',
-      tabBarIcon: ({ tintColor }) => <Icon name="list" size={10} color={tintColor} />,
-    },
-  },
-  Me: {
-    screen: Me,
+  videofunctionsTab: {
+    screen: videoFunctionsStack,
     navigationOptions: {
-      title: 'My Information',
+      title: 'Video',
 
-      tabBarLabel: 'Me',
+      tabBarLabel: 'Video',
       tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={10} color={tintColor} />
     },
   },
-  Settings: {
-    screen: Settings,
-    navigationOptions: {
-      
-      title: 'Settings',
-    },
-  },  
+
+
+
 });
 
-export const SettingsStack = StackNavigator({
-  Settings: {
-    screen: Settings,
-    navigationOptions: {
-      title: 'Settings',
-    },
-  },
-});
+
 
 // export const Root = StackNavigator({
 //   Tabs: {
@@ -84,7 +145,9 @@ export const SettingsStack = StackNavigator({
 
 export const Root = StackNavigator({
   Tabs: {
+    //screen: Tabs,
     screen: Tabs,
+
   },
 
 }, {

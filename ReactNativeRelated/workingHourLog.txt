@@ -16,3 +16,7 @@ trimming functions.
 12/07/2017: 
 10 hours, 8:30am - 8:00pm, minus the necessary breaks for lunch/dinner etc, plus a one hour meeting which is not relevant to this job.
 Made "professional looking" UIs that resemble some of the apps on the market, including bottom menu and video list item that has better button designs.
+
+13/07/2017: 
+10 hours, 8:30am - 8:00pm, minus the necessary breaks for lunch/dinner etc, plus roughly one hour of talking with Jeremy which shouldn't be included in working hour.
+Video playing UI, started backend, the app can now get URLs of videos on remote server, but can't play the video for some reason.

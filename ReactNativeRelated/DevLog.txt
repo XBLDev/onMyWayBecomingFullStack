@@ -1,3 +1,26 @@
+13/07/2017:
+
+Today's focus: UIs related to video playing, and for the last 3,4 hours started working on backend.
+
+For the video UIs it's mostly just a replication of the react-native-video-controller: 
+https://github.com/itsnubix/react-native-video-controls
+
+This package provides an almost complete UI interface for video: play, pause, current time, duration etc. But turns out 
+it doesn't have the drag bar that can set time as it shows in github. The current UI I made have play, time which currently 
+displays time in seconds, and an expand button that hopefully can make video go full screen in the future.
+
+The rough ideas behind how users can reach to drone videos that are on remote server:
+1. put the drone videos on Amazon S3, which is just a temporary solution. In the future is has to be automatically uploaded somehow.
+2. In the backend, create/get new DB for drone videos, and add 2 URLs of the supported videos if that DB has no records.
+3. After create/get drone video DB and adding 2 videos, publish it so the front end can subscribe it.
+4. In the front end, subscribe to the DB that's published by server, and make a list object receive all the records
+5. Use the URLs to play videos.
+
+Currently, using the URLs to play video gives me error saying something like undefined constants, don't know the cause of it, 
+maybe related to package versions.
+
+####################################################################################################################################################################################
+
 12/07/2017:
 
 Today I mainly worked on designing a more professional looking UI, the 2 references I used for UI design today were:

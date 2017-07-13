@@ -7,6 +7,9 @@ import videoMerging from '../screens/videoMerging';
 import videoBrowsing from '../screens/videoBrowsing';
 import videoListUIDesign from '../screens/videoListUIDesign';
 import videoProcessing from '../screens/videoProcessing';
+import videoRecording from '../screens/videoRecording';
+import videoPlayerController from '../screens/videoPlayerController';
+
 
 import videoFunctions from '../screens/videoFunctions';
 
@@ -35,6 +38,23 @@ import videoFunctions from '../screens/videoFunctions';
 // });
 
 
+export const videoMergeFunctionsStack= StackNavigator({
+
+  videoMergeUI: {
+    screen: videoListUIDesign,
+    navigationOptions: {
+      // title: 'VideoListUIDesign',
+    },
+  },
+
+  videoRecording:{
+    screen: videoRecording,
+    navigationOptions: {
+      // title: 'VideoRecording',
+    },
+  },
+});
+
 
 export const videoFunctionsStack= StackNavigator({
   // videofunctionsMain: {
@@ -46,7 +66,7 @@ export const videoFunctionsStack= StackNavigator({
   videofunctionsMain: {
     screen: videoFunctions,
     navigationOptions: {
-      title: 'videoFunc',
+      // title: 'videoFunc',
     },
   }, 
   videoMerging: {
@@ -61,18 +81,32 @@ export const videoFunctionsStack= StackNavigator({
       title: 'VideoBrowsing',
     },
   },    
+  // videoUIDesign: {
+  //   screen: videoListUIDesign,
+  //   navigationOptions: {
+  //     title: 'VideoListUIDesign',
+  //   },
+  // },
   videoUIDesign: {
-    screen: videoListUIDesign,
+    screen:  videoMergeFunctionsStack,
     navigationOptions: {
-      title: 'VideoListUIDesign',
+      // title: 'VideoListUIDesign',
     },
   },
+
   videoProcess: {
     screen: videoProcessing,
     navigationOptions: {
-      title: 'VideoProcessing',
+      // title: 'VideoProcessing',
     },
   },
+
+  videoPlayerController: {
+    screen: videoPlayerController,
+    navigationOptions: {
+      // title: 'VideoProcessing',
+    },
+  }, 
 
 
 });
