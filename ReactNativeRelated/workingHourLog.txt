@@ -20,3 +20,8 @@ Made "professional looking" UIs that resemble some of the apps on the market, in
 13/07/2017: 
 10 hours, 8:30am - 8:00pm, minus the necessary breaks for lunch/dinner etc, plus roughly one hour of talking with Jeremy which shouldn't be included in working hour.
 Video playing UI, started backend, the app can now get URLs of videos on remote server, but can't play the video for some reason.
+
+14/07/2017: 
+10 hours, 8:30am - 7:00pm, minus the necessary breaks for lunch/dinner etc
+Built a new component that can read/play remote video through backend, but cannot merge due to unknown reasons. Suspected cause is that the remote video is not downloaded, 
+and explored file download package, which doesn't seem to download the file at all.

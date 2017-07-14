@@ -1,3 +1,28 @@
+14/07/2017:
+
+Started on backend, or rather how to reach the drone videos put on S3 through simple backend setup, which is basically just a 
+list of the video URLS.
+
+Yesterday i couldn't play the videos even after I got the URLs read from DB, and it seems that it's got nothing to do with my code:
+I simply change the gradle settings such that they are the same as the settings in ReactNativeVideoEditor, and added all sorts of 
+setups that should happen in MainApplication.java and build.gradle/gradle.settings, and it worked, the video plays.
+
+So for now it seems that the idea of how to get the remote videos work: putting them on a remote server, which is Amazon S3 in this 
+case, put all the video URLs in a DB on Meteor Galaxy, make the backend publish it and frontend subscribe it, and finally use the 
+list of URLs to play the video.
+
+The process of choosing user videos is pretty much the same as RNVideoEditor, the only difference is that now the chosen drone video 
+has to be added to the final list for merging.
+
+But the videos won't merge: it gives an error which indicates that there's something wrong with not my code, but rather it's something 
+related to the underlying ReactVideoEditor code.
+
+I suspect that it's because the videos on the server are not downloaded, which caused the merger fail to merge. Therefore I explored file 
+download with: https://www.npmjs.com/package/react-native-fetch-blob. Doesn't seem to work at all, no matter what settings I use, it simply 
+just won't download anything.
+
+####################################################################################################################################################################################
+
 13/07/2017:
 
 Today's focus: UIs related to video playing, and for the last 3,4 hours started working on backend.
