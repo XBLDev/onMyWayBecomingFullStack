@@ -19,6 +19,7 @@ import  {
   AsyncStorage,
   ScrollView,
   NativeModules,
+  Alert,
 } from 'react-native';
 
 import { List, ListItem } from 'react-native-elements';
@@ -40,24 +41,28 @@ class myDroneVideoList extends Component {
 
 
   constructor(props) {
-  super(props);
-  this.state = {
-      numberOfTasksState: 0,
-      mobileVideoUrls: [],
-      videoUrls: [],
-      droneVideoUrlList: [],
-      MergedVideoFilePath: '',
-      selectedDroneVideoPath: '',
-      hasMergedVideo: false,
-      image: null,
-      images: null,
-  };
+      super(props);
+      this.state = {
+          numberOfTasksState: 0,
+          mobileVideoUrls: [],
+          videoUrls: [],
+          droneVideoUrlList: [],
+          MergedVideoFilePath: '',
+          selectedDroneVideoPath: '',
+          downloadedFilePath: '',
+          hasMergedVideo: false,
+          image: null,
+          images: null,
+          droneVideoDownloaded: false,
+      }
 
 
-//   this.handleAddItem = this.handleAddItem.bind(this);
-  this.numberOfTasks = 0;
-//    this.handleClick = this.handleClick.bind(this);
-}
+    //   this.handleAddItem = this.handleAddItem.bind(this);
+      this.numberOfTasks = 0;
+    //    this.handleClick = this.handleClick.bind(this);
+      this.mergeVideos = this.mergeVideos.bind(this);
+      this.mergeVideos2 = this.mergeVideos2.bind(this);
+  }
 
   componentWillMount() {
     // Meteor.connect(SERVER_URL);
@@ -92,38 +97,206 @@ class myDroneVideoList extends Component {
                   
   }  
 
-  mergeVideos() {
-    //maybe download the file first?
-    now = new Date().toDateString();
-    RNFetchBlob.config
-    ({
+  onPressDownLoadFile()
+  {
+        let dirs = RNFetchBlob.fs.dirs;
+        let downloadDir = dirs.DownloadDir;
+        //dirs.CacheDir, dirs.DCIMDir, dirs.DownloadDir
+        // Alert.alert(
+        //     'Fetch Blob path',
+        //     'Fetch Blob file path: '+downloadDir,
+        //     [
+        //         // {text: 'Ask me later'},
+        //         {text: 'OK'},
+        //     ],
+        //     { cancelable: true }
+        // );
+
+        // now = new Date().toDateString();
+        RNFetchBlob.config({
+            // add this option that makes response data to be stored as a file, 
+            // this is much more performant. 
             // file:///storage/emulated/0/Movies/testTrimVideo.mp4
             // fileCache : true,
-            path : 'file:///storage/emulated/0/Movies/downloadFromS3/'+this.state.selectedDroneVideoPath.substring(this.state.selectedDroneVideoPath.lastIndexof('/')+1,this.state.selectedDroneVideoPath.length),
-    })
-    .fetch('GET', this.state.selectedDroneVideoPath, {
-    })
-    .then((res) => {
-      this.setState({selectedDroneVideoPath: res.path()});
-    })
+            // appendExt : 'mp4',
+            // path : '/storage/emulated/0/Movies/FixedDroneFileFPS30.mp4',
+            path: downloadDir+'/FixedDroneFileFPS30.mp4'
+            // path : 'file:///storage/emulated/0/Movies/',
+            // path : 'file:///storage/emulated/0/Download/FixedDroneFileFPS30_2.mp4',
+            // path : dirs.DocumentDir + '/FixedDroneFileFPS30_2.mp4'
 
-    //start merge the user video with the (downloaded) drone video 
-    if(this.state.mobileVideoUrls.length >= 1 && this.state.selectedDroneVideoPath!='') {
-      // var mobileVideoUrlsCopy = this.state.mobileVideoUrls;
-      // var videoUrlsCopy = this.state.videoUrlsCopy;
-      // for(var i =0;i<this.state.mobileVideoUrls.length;i++)
-      // {
-      //     videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
-      // }
-      // videoUrlsCopy.push(this.state.selectedDroneVideoPath);
-      // this.setState({videoUrls: videoUrlsCopy});
+            
+        })
+        .fetch('GET', 'https://s3-ap-southeast-2.amazonaws.com/dronevideoflyabove/FixedDroneFileFPS30_2.mp4', {
+                        
+            'Cache-Control' : 'no-store'
 
+            //some headers .. 
+        })
+        .then((res) => {
+            // the temp file path 
+            // console.log('The file saved to ', res.path())
+        //   Alert.alert(
+        //       'File Download',
+        //       'Downloaded file to: '+res.path(),
+        //       [
+        //           // {text: 'Ask me later'},
+        //           {text: 'OK'},
+        //       ],
+        //       { cancelable: true }
+        //   )
+            // res.path();
+            this.setState({filedownloaded: true});    
+            this.setState({downloadedFilePath: res.path()});             
+        })
+  }
+
+
+  mergeVideos() 
+  {
+    //maybe download the file first?
+    // now = new Date().toDateString();
+    if(this.state.selectedDroneVideoPath!='')
+    {
+      let dirs = RNFetchBlob.fs.dirs;
+      let downloadDir = dirs.DownloadDir;   
+      // selectedDroneVideoPathCopy = this.state.selectedDroneVideoPath;
+      var properfilename = this.state.selectedDroneVideoPath.substring(this.state.selectedDroneVideoPath.lastIndexOf('/')+1,this.state.selectedDroneVideoPath.length);
+      // Alert.alert(
+      //       'Fetch Blob path',
+      //       'Fetch Blob file path: '+downloadDir,
+      //       [
+      //           // {text: 'Ask me later'},
+      //           {text: 'OK'},
+      //       ],
+      //       { cancelable: true }
+      // );      
+
+      RNFetchBlob.config({
+              // file:///storage/emulated/0/Movies/testTrimVideo.mp4
+              // fileCache : true,
+              // path : 'file:///storage/emulated/0/Movies/downloadFromS3/'+this.state.selectedDroneVideoPath.substring(this.state.selectedDroneVideoPath.lastIndexOf('/')+1,this.state.selectedDroneVideoPath.length),
+          path: downloadDir+'/'+properfilename
+
+      })
+      .fetch('GET',  this.state.selectedDroneVideoPath, {
+            'Cache-Control' : 'no-store'
+
+      })
+      .then((res) => {
+        // this.setState({selectedDroneVideoPath: res.path()});
+        this.setState({downloadedFilePath: res.path()});             
+        this.setState({droneVideoDownloaded: true});             
+        
+        // this.mergeVideos2; 
+      })
+
+
+    }
+
+
+    //// start merge the user video with the (downloaded) drone video 
+    // if(this.state.mobileVideoUrls.length >= 1 && this.state.selectedDroneVideoPath!='') {
+    //   var mobileVideoUrlsCopy = this.state.mobileVideoUrls;
+    //   var videoUrlsCopy = this.state.videoUrls;
+    //   for(var i =0;i<this.state.mobileVideoUrls.length;i++)
+    //   {
+    //       videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
+    //   }
+    //   videoUrlsCopy.push(this.state.selectedDroneVideoPath);
+    //   this.setState({videoUrls: videoUrlsCopy});
+
+    //   // for(var i =0;i<this.state.mobileVideoUrls.length;i++)
+    //   // {
+    //   //     // videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
+    //   //     this.setState({videoUrls:[...this.state.videoUrls, this.state.mobileVideoUrls[i]]});
+    //   // }
+    //   // this.setState({videoUrls:[...this.state.videoUrls, this.state.selectedDroneVideoPath]});
+
+    //   Alert.alert(
+    //     'merge video Url paths',
+    //     'Succeess! Path 1: '+this.state.videoUrls[0] +' , path 2: '+this.state.videoUrls[1],
+    //     [
+    //       // {text: 'Ask me later'},
+    //       {text: 'OK'},
+    //     ],
+    //     { cancelable: true }
+    //   )          
+
+    //   RNVideoEditor.merge(
+    //     this.state.videoUrls,
+    //     function errorCallback(results) {
+    //       // alert('Error: ' + results);
+    //       Alert.alert(
+    //         'Merge Video',
+    //         'Failed!',
+    //         [
+    //           // {text: 'Ask me later'},
+    //           {text: 'Error: ' + results},
+    //         ],
+    //         { cancelable: true }
+    //       )              
+    //     },
+    //     (results, file) => {
+    //       // alert('Success : ' + results + " " + file);
+    //       Alert.alert(
+    //         'Merge Video',
+    //         'Succeess! Path: '+file,
+    //         [
+    //           // {text: 'Ask me later'},
+    //           {text: 'OK'},
+    //         ],
+    //         { cancelable: true }
+    //       )    
+
+    //     //   this.setState({MergedVideoFilePath: file, hasMergedVideo: true, showingMergedVideo: true, videoUrls: []});
+    //       this.setState({MergedVideoFilePath: file, hasMergedVideo: true});
+          
+    //     }
+    //   );
+    //}
+    //else {
+    //      Alert.alert(
+    //         'Merge Video',
+    //         'Need more than 2 videos!',
+    //         [
+    //           // {text: 'Ask me later'},
+    //           {text: 'OK'},
+    //         ],
+    //         { cancelable: true }
+    //       )
+    // }
+  }
+
+  mergeVideos2()
+  {
+    if(this.state.mobileVideoUrls.length >= 1 && this.state.downloadedFilePath!='') 
+    {
+      var mobileVideoUrlsCopy = this.state.mobileVideoUrls;
+      var videoUrlsCopy = this.state.videoUrls;
       for(var i =0;i<this.state.mobileVideoUrls.length;i++)
       {
-          // videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
-          this.setState({videoUrls:[...this.state.videoUrls, this.state.mobileVideoUrls[i]]});
+          videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
       }
-      this.setState({videoUrls:[...this.state.videoUrls, this.state.selectedDroneVideoPath]});
+      videoUrlsCopy.push(this.state.downloadedFilePath);
+      this.setState({videoUrls: videoUrlsCopy});
+
+      // for(var i =0;i<this.state.mobileVideoUrls.length;i++)
+      // {
+      //     // videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
+      //     this.setState({videoUrls:[...this.state.videoUrls, this.state.mobileVideoUrls[i]]});
+      // }
+      // this.setState({videoUrls:[...this.state.videoUrls, this.state.selectedDroneVideoPath]});
+
+      // Alert.alert(
+      //   'merge video Url paths',
+      //   'Succeess! Path 1: '+this.state.videoUrls[0] +' , path 2: '+this.state.videoUrls[1],
+      //   [
+      //     // {text: 'Ask me later'},
+      //     {text: 'OK'},
+      //   ],
+      //   { cancelable: true }
+      // )          
 
       RNVideoEditor.merge(
         this.state.videoUrls,
@@ -156,7 +329,15 @@ class myDroneVideoList extends Component {
           
         }
       );
-    } else {
+    
+
+
+
+
+    }
+  
+    else 
+    {
          Alert.alert(
             'Merge Video',
             'Need more than 2 videos!',
@@ -166,9 +347,9 @@ class myDroneVideoList extends Component {
             ],
             { cancelable: true }
           )
-    }
-  }
+    }  
 
+  }
 
   setSelectedDroneURL = (currentDroneVideoURL) => {
     //  var droneVideoUrlListCopy = this.state.droneVideoUrlList;
@@ -188,60 +369,41 @@ class myDroneVideoList extends Component {
      }
 
      //BELOW IS THE IMPLEMENTATION FOR CHOOSING MULTIPLE DRONE VIDEOS
-     if(this.state.droneVideoUrlList.length == 0)
-     {
-        this.setState({droneVideoUrlList: [...this.state.droneVideoUrlList, currentDroneVideoURL]});
-     }
-     else
-     {
-       containsURL = false;
-       for(var i=0;i<this.state.droneVideoUrlList.length;i++)
-       {
-          if(this.state.droneVideoUrlList[i] == currentDroneVideoURL)
-          {
-            containsURL = true;
-            break;
-          }
-       }
+    //  if(this.state.droneVideoUrlList.length == 0)
+    //  {
+    //     this.setState({droneVideoUrlList: [...this.state.droneVideoUrlList, currentDroneVideoURL]});
+    //  }
+    //  else
+    //  {
+    //    containsURL = false;
+    //    for(var i=0;i<this.state.droneVideoUrlList.length;i++)
+    //    {
+    //       if(this.state.droneVideoUrlList[i] == currentDroneVideoURL)
+    //       {
+    //         containsURL = true;
+    //         break;
+    //       }
+    //    }
 
-       if(containsURL)
-       {
-            temp = this.state.droneVideoUrlList;
-            this.setState({droneVideoUrlList: this.state.droneVideoUrlList.filter(function(video) { 
-                return video !== temp[currentDroneVideoURL] 
-            })});
-       }
-       else
-       {
-            this.setState({droneVideoUrlList: [...this.state.droneVideoUrlList, currentDroneVideoURL]});
-       }
-     }
+    //    if(containsURL)
+    //    {
+    //         temp = this.state.droneVideoUrlList;
+    //         this.setState({droneVideoUrlList: this.state.droneVideoUrlList.filter(function(video) { 
+    //             return video !== temp[currentDroneVideoURL] 
+    //         })});
+    //    }
+    //    else
+    //    {
+    //         this.setState({droneVideoUrlList: [...this.state.droneVideoUrlList, currentDroneVideoURL]});
+    //    }
+    //  }
   }
 
-  DownloadVideo = (downLoadVideoURL) => {
-    now = new Date().toDateString();
 
-    RNFetchBlob.config({
-            // file:///storage/emulated/0/Movies/testTrimVideo.mp4
-            fileCache : true,
-            // appendExt : 'mp4',
-            path : 'file:///storage/emulated/0/Movies/downloadFromS3/'+downLoadVideoURL.substring(downLoadVideoURL.lastIndexof('/')+1,downLoadVideoURL.length),
-        })
-        .fetch('GET', downLoadVideoURL, {
-            //some headers .. 
-        })
-        .then((res) => {
-          // Alert.alert(
-          //     'File Download',
-          //     'Downloaded file to: '+res.path(),
-          //     [
-          //         // {text: 'Ask me later'},
-          //         {text: 'OK'},
-          //     ],
-          //     { cancelable: true }
-          // )
-          this.setState({selectedDroneVideoPath: res.path()});
-        })    
+
+  DownloadVideo = (downLoadVideoURL) => {
+    // now = new Date().toDateString();
+
   }  
 
   render() {
@@ -252,8 +414,11 @@ class myDroneVideoList extends Component {
 
       <View style={{flex:1, flexDirection:'column', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black'}}>
             <View style={{flex:0.85, justifyContent: 'center', alignItems: 'center', width: ScreenWidth}}>
-                <View style={{justifyContent: 'center', alignItems: 'center', width: ScreenWidth, height: 30, backgroundColor: 'blue'}}>
-                      <Text style={{color: 'white', fontWeight: 'bold'}}>Number of drone video count on S3: {this.props.countOfDroneVideo}, press to select one of them</Text>
+                <View style={{justifyContent: 'center', alignItems: 'center', width: ScreenWidth, height: 50, backgroundColor: 'blue'}}>
+                      <Text style={{color: 'white', fontWeight: 'bold'}}>Number of drone video count on S3: {this.props.countOfDroneVideo}, 
+                            selected drone video path: {this.state.downloadedFilePath}
+
+                      </Text>
                 </View>    
                 <ScrollView>
                     <List>
@@ -264,7 +429,7 @@ class myDroneVideoList extends Component {
                                     <Text style={{color: this.state.selectedDroneVideoPath == droneurl.videoURL? 'white':'black'}}>{droneurl.videoURL}</Text>
                                 </TouchableOpacity>
                             </View>
-                            {this.state.selectedDroneVideoPath == droneurl.videoURL? 
+                            {/*{this.state.selectedDroneVideoPath == droneurl.videoURL? 
                             <View style={{width: ScreenWidth, height: 200, justifyContent: 'center', alignItems: 'center'}}>
                                 <Video source={{uri: droneurl.videoURL}}
                                     style={{position: 'absolute',
@@ -281,7 +446,7 @@ class myDroneVideoList extends Component {
                                     repeat={true} 
                                 />
                                 
-                            </View>: null}  
+                            </View>: null}  */}
                         </View>
 
                     ))}
@@ -292,7 +457,7 @@ class myDroneVideoList extends Component {
                 </View>
                 <ScrollView>
                     <List>
-                        {this.state.mobileVideoUrls.length((userVideoUrl) => (
+                        {this.state.mobileVideoUrls.map((userVideoUrl) => (
                             <View key={userVideoUrl} style={{justifyContent: 'center', alignItems: 'center', width: ScreenWidth, borderColor: 'black', borderWidth: 5}}>
                                 <View style={{width: ScreenWidth, height: 30, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white'}}>
                                         <Text style={{color: 'black'}}>{userVideoUrl}</Text>                                    
@@ -300,7 +465,8 @@ class myDroneVideoList extends Component {
                             </View>
                         ))}
                     </List>
-                </ScrollView>                                    
+                </ScrollView>
+
             </View>
 
 
@@ -308,7 +474,7 @@ class myDroneVideoList extends Component {
 
 
             <View style={{flex: 0.15, flexDirection:'row', backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', width: ScreenWidth}}> 
-                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/2}}>
+                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
                       <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>                      
                                 <Text>Add video</Text>
@@ -316,14 +482,32 @@ class myDroneVideoList extends Component {
                           </View>                                                
                       </TouchableOpacity>
                 </View>
-                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/2}}>
-                      <TouchableOpacity onPress={this.mergeVideos.bind(this)}>
+                
+                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                      <TouchableOpacity onPress={this.mergeVideos}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
-                                <Text>Merge</Text>
+                                <Text>Merge(download)</Text>
                                 <Icon name="plus-circle" size={20} color="#000" />
                           </View>
                       </TouchableOpacity>                    
-                </View>                                  
+                </View>
+
+                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                      <TouchableOpacity onPress={this.mergeVideos2}>
+                          <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+                                <Text>merge2</Text>
+                                <Icon name="plus-circle" size={20} color="#000" />
+                          </View>
+                      </TouchableOpacity>                    
+                </View>
+                {/*<View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                      <TouchableOpacity onPress={this.mergeVideos}>
+                          <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
+                                <Text>downloadDroneVideo</Text>
+                                <Icon name="plus-circle" size={20} color="#000" />
+                          </View>
+                      </TouchableOpacity>                    
+                </View>                                                                  */}
             </View>
                     
 

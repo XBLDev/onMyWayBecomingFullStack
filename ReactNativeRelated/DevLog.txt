@@ -1,3 +1,32 @@
+15/07/2017:
+
+The app can now download the video from Amazon S3, and merge it with the video from user's mobile phone.
+
+It turns out that the reason it couldn't download the video was because I used a folder where it just simply can't keep any of the 
+downloaded files, and the one that works is the "Download" folder, and the trick here is: it wouldn't work if you just hard code the 
+path, you have to use the constant path that represents the Download folder in order for the file to be downloaded.
+
+It's true that the user can't merge the 2 videos unless they are both on the phone, but after download there's another problem: because 
+it takes time to download the video, if the merged is executed right after the download, the merge will simply just fail.
+
+So for now, the entire download + merge process is divided into 2 seperate steps, with 2 buttons that execute them. I have to use 
+the UI to indicate that the file is downloaded before I press the merge button. It's just for MVP so it's OK, but it has to be fixed later 
+on for it to be a complete ONE function.
+
+As for now the entire process of merging 2 videos is:
+1. Put the videos on Amazon S3
+2. In meteor backend, put the URLs of these videos in a DB
+3. The backend publish the DB
+4. The frontend subscribe the DB
+5. The user can choose, for now, one drone video from the subscribed list of drone videos
+6. The user choose another one or more videos taken on the phone
+7. The user click on the download button to download the drone video, this step will be combined with step 8 in the future.
+8. After the video is downloaded, the user merge the drone video with their own videos, possibly delete the downloaded drone video after that.
+
+The development of this app is being halted until given further instructions.
+
+####################################################################################################################################################################################
+
 14/07/2017:
 
 Started on backend, or rather how to reach the drone videos put on S3 through simple backend setup, which is basically just a 
