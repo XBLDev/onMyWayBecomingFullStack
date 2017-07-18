@@ -1,4 +1,12 @@
-15/07/2017:
+18/07/2017:
+
+The solution to the waiting time for downloading drone video is simple: use the setState callback, since the callback is only executed 
+after the download is finished, it's safe to put the merging function in it such that the video merging happens right after the download 
+is finished.
+
+####################################################################################################################################################################################
+
+17/07/2017:
 
 The app can now download the video from Amazon S3, and merge it with the video from user's mobile phone.
 

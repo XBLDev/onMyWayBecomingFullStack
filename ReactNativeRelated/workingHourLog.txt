@@ -26,7 +26,12 @@ Video playing UI, started backend, the app can now get URLs of videos on remote 
 Built a new component that can read/play remote video through backend, but cannot merge due to unknown reasons. Suspected cause is that the remote video is not downloaded, 
 and explored file download package, which doesn't seem to download the file at all.
 
-15/07/2017:
+17/07/2017:
 9.5 hours, 8:30 - 7:00, minus the necessary breaks for lunch/dinner etc, plus talking with Jeremy
 The app now can merge the drone from Amazon S3 and mobile phone together. Download the S3 video and merge videos are now 2 seperate functions because of the time it takes 
 to download the video, but it should be easily fixable, and these 2 steps will be combined into one in the future.
+
+18/07/2017:
+0.5 hours, 10:30 - 11:00, fixed bug related to downloading video file
+The processes of downloading drone video and merging are now combined into one, so user doesn't have to worry about downloading the drone file, wait until it's finished,
+and merging the videos.

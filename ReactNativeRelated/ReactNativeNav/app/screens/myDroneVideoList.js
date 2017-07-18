@@ -185,8 +185,68 @@ class myDroneVideoList extends Component {
       })
       .then((res) => {
         // this.setState({selectedDroneVideoPath: res.path()});
-        this.setState({downloadedFilePath: res.path()});             
-        this.setState({droneVideoDownloaded: true});             
+        this.setState({downloadedFilePath: res.path()}, function(){
+            if(this.state.mobileVideoUrls.length >= 1 && this.state.downloadedFilePath!='') 
+            {
+                var mobileVideoUrlsCopy = this.state.mobileVideoUrls;
+                var videoUrlsCopy = this.state.videoUrls;
+                for(var i =0;i<this.state.mobileVideoUrls.length;i++)
+                {
+                    videoUrlsCopy.push(mobileVideoUrlsCopy[i]);
+                }
+                videoUrlsCopy.push(this.state.downloadedFilePath);
+                this.setState({videoUrls: videoUrlsCopy});
+
+                RNVideoEditor.merge(
+                  this.state.videoUrls,
+                  function errorCallback(results) {
+                    // alert('Error: ' + results);
+                    Alert.alert(
+                      'Merge Video',
+                      'Failed!',
+                      [
+                        // {text: 'Ask me later'},
+                        {text: 'Error: ' + results},
+                      ],
+                      { cancelable: true }
+                    )              
+                  },
+                  (results, file) => {
+                    // alert('Success : ' + results + " " + file);
+                    Alert.alert(
+                      'Merge Video',
+                      'Succeess! Path: '+file,
+                      [
+                        // {text: 'Ask me later'},
+                        {text: 'OK'},
+                      ],
+                      { cancelable: true }
+                    )    
+
+                  //   this.setState({MergedVideoFilePath: file, hasMergedVideo: true, showingMergedVideo: true, videoUrls: []});
+                    this.setState({MergedVideoFilePath: file, hasMergedVideo: true});
+                    
+                  }
+                );
+
+
+
+            }
+            else 
+            {
+                Alert.alert(
+                    'Merge Video',
+                    'Need more than 2 videos!',
+                    [
+                      // {text: 'Ask me later'},
+                      {text: 'OK'},
+                    ],
+                    { cancelable: true }
+                  )
+            }                          
+
+        });             
+        // this.setState({droneVideoDownloaded: true});             
         
         // this.mergeVideos2; 
       })
@@ -474,32 +534,32 @@ class myDroneVideoList extends Component {
 
 
             <View style={{flex: 0.15, flexDirection:'row', backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', width: ScreenWidth}}> 
-                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/2}}>
                       <TouchableOpacity onPress={this.pickMultiple.bind(this)}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>                      
-                                <Text>Add video</Text>
+                                <Text>Add mobile phone video</Text>
                                 <Icon name="file-video-o" size={20} color="#000" />
                           </View>                                                
                       </TouchableOpacity>
                 </View>
                 
-                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/2}}>
                       <TouchableOpacity onPress={this.mergeVideos}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
-                                <Text>Merge(download)</Text>
+                                <Text>Merge</Text>
                                 <Icon name="plus-circle" size={20} color="#000" />
                           </View>
                       </TouchableOpacity>                    
                 </View>
 
-                <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
+                {/*<View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
                       <TouchableOpacity onPress={this.mergeVideos2}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
                                 <Text>merge2</Text>
                                 <Icon name="plus-circle" size={20} color="#000" />
                           </View>
                       </TouchableOpacity>                    
-                </View>
+                </View>*/}
                 {/*<View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center', width: ScreenWidth/3}}>
                       <TouchableOpacity onPress={this.mergeVideos}>
                           <View style={{flexDirection:'column', justifyContent: 'center', alignItems: 'center'}}>
