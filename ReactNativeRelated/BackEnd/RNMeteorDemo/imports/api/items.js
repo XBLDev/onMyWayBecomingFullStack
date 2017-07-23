@@ -40,11 +40,11 @@ if (Meteor.isServer) {
       //   meta: {}
       // });
       droneVideoURLS.insert({ 
-            videoURL: 'https://s3-ap-southeast-2.amazonaws.com/dronevideoflyabove/RealRawDroneFPS30_2_27.mp4', 
+            videoURL: 'https://s3-ap-southeast-2.amazonaws.com/dronevideoflyabove/FixedDroneFileFPS30_2.mp4', 
             
       });
       droneVideoURLS.insert({ 
-            videoURL: 'https://s3-ap-southeast-2.amazonaws.com/dronevideoflyabove/RealRawUserFPS30.mp4', 
+            videoURL: 'https://s3-ap-southeast-2.amazonaws.com/dronevideoflyabove/FixedUserFileFPS30_2.mp4', 
             
       });      
   }
