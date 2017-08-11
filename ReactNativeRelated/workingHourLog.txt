@@ -35,3 +35,8 @@ to download the video, but it should be easily fixable, and these 2 steps will b
 0.5 hours, 10:30 - 11:00, fixed bug related to downloading video file
 The processes of downloading drone video and merging are now combined into one, so user doesn't have to worry about downloading the drone file, wait until it's finished,
 and merging the videos.
+
+11/08/2017:
+6 hours, 9:30 - 4:00, minus necessary breaks for lunch, toilet etc
+Attempted to find ways of merging the mobile phone video recorded with mate 8 and the drone video, found certain options but none viable solution. Added 
+video recording function.

@@ -1,3 +1,33 @@
+11/08/2017:
+
+The reasons why the video recorded with HuaWei mate 8 can not merge with the drone video:
+
+1. Even with the original iphone video, I had to convert both the iphone video and the drone video to 30 FPS, before I can merge them. The 
+video recorded with HuaWei is not converted, therefore can not merge with the drone video.
+
+This is the primary reason this MVP can't be actually achieved for now: as long as the mobile phone video needs to be mannually converted to the same 
+frame rate as the drone video, it can't merge RIGHT AFTER THE VIDEO IS RECORDED, and that's in the MVP 1 spec.
+
+2. The phone video size is: 368 * 656. And the drone video size is 1920 * 1080. My tool cannot change a small sized video to a big sized video, so 
+I had to down-size the drone video to 369 * 656 first. And somehow after that, no matter how I convert both videos, they just won't merge, or rather 
+it will give you a dialog telling you they merge, and there's a merged video file, but there's nothing in that file, just pitch black.
+
+I suspect that if the mobile phone video was originally recorded 368 * 656, there are certain things that are just not compatiable with any video 
+that was recorded 1920 * 1080. However since I can merge them with the webtool: http://www.aconvert.com/video/merge/#, I can't say i'm entirely sure
+about it.
+
+Conclusion:
+
+1. The MVP cannot be achieved as long as the mobile/drone videos have to be mannually converted before they can merge.
+2. I'm adding the video recording function to the generated apk, so maybe record some random videos and see what size are the videos recorded. Maybe
+with the video recorded 1920 * 1080, they can merge after convert.
+3. I think I'll keep looking into viable solutions that can convert videos in-app, or any possible way that can merge videos without converting them.
+
+But I won't spend too much time on this project until I actually find a solution or anything like it, since I think it will take a long time to find 
+a solution, potentially involving mitigating to another development tool other than react-native.
+
+####################################################################################################################################################################################
+
 18/07/2017:
 
 The solution to the waiting time for downloading drone video is simple: use the setState callback, since the callback is only executed 
